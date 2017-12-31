@@ -13,11 +13,14 @@ class vector2d
         void setX(double newX);
         void setY(double newY);
         double distance();
+        vector2d direction();
         vector2d operator +(vector2d other);
         vector2d operator +=(vector2d other);
         vector2d operator -(vector2d other);
         vector2d operator -=(vector2d other);
         vector2d operator *(double num);
+        vector2d operator *=(double num);
         vector2d operator /(double num);
+        vector2d operator /=(double num);
 };
 #endif

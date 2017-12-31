@@ -62,3 +62,16 @@ vector2d vector2d :: operator -=(vector2d other)
 {
      *this = (*this - other);
 }
+vector2d vector2d :: operator *=(double num)
+{
+    *this = (*this * num);
+}
+vector2d vector2d :: operator /=(double num)
+{
+    *this = (*this / num);
+}
+
+vector2d vector2d :: direction()
+{
+    return *this / this->distance();
+}

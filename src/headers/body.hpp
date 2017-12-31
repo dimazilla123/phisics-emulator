@@ -5,6 +5,8 @@
 #include <map>
 #include <vector>
 
+using namespace std;
+
 class body
 {
     private:
@@ -12,16 +14,20 @@ class body
         vector2d position;
         vector2d velocity;
         vector2d forceSum;
-        //map<string,double> parameters;
+        multimap<string,double> parameters;
     public:
         body(double massN);
         void setPosition(vector2d newPos);
         vector2d getPosition();
         void setVelocity(vector2d newVelocity);
         vector2d getVelocity();
-        //body(double massN, vector<string> parametersNames);
+        body(double massN, vector<string> parametersNames);
+        void setParameter(string name, double value);
+        double getParameter(string name);
+        double getMass();
+        void setMass(double m);
         void move(double dt);
-        //void applicateForce(body other);
+        void applicateForce(body other, vector2d (*force)(body, body));
 };
 
 #endif
