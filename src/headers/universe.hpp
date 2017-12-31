@@ -8,17 +8,20 @@
 
 typedef vector2d (*forceFunction)(body, body);
 
+#define READABLE_UNIVERSE_PRINTING_MODE 0
+#define EXPORT_UNIVERSE_PRINTING_MODE 1
+
 class universe
 {
     private:
-        vector<body> bodies;
+        vector<body*> bodies;
         vector<forceFunction> forces;
     public:
-        void addBody(body b);
+        void addBody(body *b);
         void addForce(forceFunction force);
         void update(double time);
-        vector<body> getBodies();
-        void print();
+        vector<body*> getBodies();
+        void print(int mode);
 };
 
 #endif

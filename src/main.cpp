@@ -26,15 +26,14 @@ int main()
     b2.setPosition(vector2d(10,5));
 
     universe u;
-    u.addBody(b1);
-    u.addBody(b2);
+    u.addBody(&b1);
+    u.addBody(&b2);
     u.addForce(&gravitation);
 
-    while(true)
+    for(int i = 0; i < 1e2; i++)
     {
-        u.print();
+        u.print(EXPORT_UNIVERSE_PRINTING_MODE);
         u.update(1);
-        getchar();
     }
 
     return 0;
