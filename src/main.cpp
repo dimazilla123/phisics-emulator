@@ -11,7 +11,7 @@ vector2d constForce (body a, body b)
     double k = 0.1;
     vector2d aPos = a.getPosition();
     vector2d bPos = b.getPosition();
-    return (aPos - bPos) * k;
+    return (bPos - aPos) / (aPos - bPos).distance();
 }
 
 vector2d gravitation (body a, body b)
@@ -26,15 +26,19 @@ vector2d gravitation (body a, body b)
 
 int main()
 {
-    const int wight = 800, hight = 600;
-    body b1(1), b2(2);
-    b1.setPosition(vector2d(wight / 2 - 10, hight / 2 + 10));
-    b2.setPosition(vector2d(wight / 2 + 10, hight / 2 - 10));
+    const int wight = 900, hight = 600;
+    body b1(1), b2(1), b3(1);
+    b1.setPosition(vector2d(wight / 2, hight / 2));
+    //b1.setVelocity(vector2d(0,1));
+    b2.setPosition(vector2d(wight / 2 + 100, hight / 2));
+    b3.setPosition(vector2d(wight / 2 + 200, hight / 2 + 50));
+    //b2.setVelocity(vector2d(0,-1));
 
     universe u;
     u.addBody(&b1);
     u.addBody(&b2);
-    u.addForce(&gravitation);
+    u.addBody(&b3);
+    u.addForce(&constForce);
 
     RenderWindow window(VideoMode(wight, hight), "Graphics");
 
@@ -56,7 +60,7 @@ int main()
                     figure.push_back(vert);
                 }
                 u.print(EXPORT_UNIVERSE_PRINTING_MODE);
-                u.update(0.001);
+                u.update(0.01);
                 window.clear(Color :: White);
                 window.draw(&figure[0], figure.size(), LineStrip);
                 window.display();
