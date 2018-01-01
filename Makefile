@@ -1,4 +1,4 @@
-LIBS=
+LIBS= -lsfml-graphics -lsfml-window -lsfml-system
 CXX=g++
 
 HEADERS=src/headers/
