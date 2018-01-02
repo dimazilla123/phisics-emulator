@@ -6,7 +6,7 @@ SOURCES=src/
 OBJDIR=obj/
 LAZYDIR=lazy/
 
-FILES=main vector2d body universe
+FILES=main vector2d body universe interface
 
 OBJS=$(addsuffix .o, $(FILES))
 LAZYS=$(addsuffix .i, $(FILES))
