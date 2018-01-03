@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "vector2d.hpp"
 #include "body.hpp"
 #include "universe.hpp"
@@ -8,10 +9,10 @@ using namespace sf;
 
 vector2d constForce (body a, body b)
 {
-    double k = 2;
+    double k = 20;
     vector2d aPos = a.getPosition();
     vector2d bPos = b.getPosition();
-    return (bPos - aPos) / (aPos - bPos).distance() * k;
+    return (bPos - aPos).direction() * k;
 }
 
 vector2d gravitation (body a, body b)
@@ -24,24 +25,29 @@ vector2d gravitation (body a, body b)
     return (bPos - aPos).direction() * G * m1 * m2 / (r * r);
 }
 
-int main()
+int main(int argc, char** argv)
 {
-    const int wight = 900, hight = 600;
-    body b1(1), b2(1), b3(1);
-    b1.setPosition(vector2d(wight / 2, hight / 2));
-    b1.setVelocity(vector2d(0,-10));
-    b2.setPosition(vector2d(wight / 2 + 100, hight / 2));
-    b3.setPosition(vector2d(wight / 2 + 200, hight / 2 + 50));
-    //b2.setVelocity(vector2d(0,-1));
+    int wight = 900, hight = 600;
+    double time = 0.001;
+    if(argc > 1) time = atof(argv[1]);
+    if(argc > 2) wight == atoi(argv[2]);
+    if(argc > 3) hight = atoi(argv[3]);
+
+    body b1(1), b2(1);
+
+    b1.setPosition(vector2d(wight / 2 + 10, hight / 2));
+    b2.setPosition(vector2d(wight / 2 - 10, hight / 2));
+
+    b1.setVelocity(vector2d(0, 30));
+    b2.setVelocity(vector2d(0, -10));
 
     universe u;
     u.addBody(&b1);
     u.addBody(&b2);
-    u.addBody(&b3);
     u.addForce(&constForce);
 
-    interface interf(u, wight, hight, 10);
-    interf.run(0.001);
+    interface interf(u, wight, hight, 1);
+    interf.run(time);
 
     return 0;
 }

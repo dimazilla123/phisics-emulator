@@ -7,7 +7,7 @@ interface :: interface(universe vers, int w, int h, int s)
     this->u = vers;
     this->speed = s;
     this->window = new RenderWindow(VideoMode(w,h), "interface");
-    this->window->setView(View(FloatRect(0, 0, w, h)));
+    this->window->setFramerateLimit(220);
 }
 
 void interface :: move(int x, int y)
@@ -15,6 +15,8 @@ void interface :: move(int x, int y)
     View v = this->window->getView();
     v.move(x,y);
     this->window->setView(v);
+    this->window->clear(Color :: White);
+    this->window->getView();
 }
 
 void interface :: run(double time)
@@ -27,6 +29,7 @@ void interface :: run(double time)
         {
             while(Keyboard :: isKeyPressed(Keyboard :: Space))
             {
+                figure.clear();
                 vector<body*> bodies = this->u.getBodies();
                 for(body *b : bodies)
                 {
@@ -41,9 +44,8 @@ void interface :: run(double time)
                 this->window->clear(Color :: White);
                 this->window->draw(&figure[0], figure.size(), LineStrip);
                 this->window->display();
-                figure.clear();
             }
-            while(Keyboard :: isKeyPressed(Keyboard :: Left))
+            if(Keyboard :: isKeyPressed(Keyboard :: Left))
             {
                 int s = this->speed;
                 this->move(-s, 0);
