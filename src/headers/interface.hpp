@@ -8,11 +8,12 @@ class interface
 {
     private:
         sf :: RenderWindow* window;
+        sf :: View view;
         int h, w;
         universe u;
-        int speed;
+        double speed;
     public:
-        interface(universe vers, int w, int h, int speed);
+        interface(universe vers, int w, int h, double speed);
         //void setSize(int x, int y);
         void move(int x, int y);
         void run(double time);
