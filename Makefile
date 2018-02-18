@@ -1,5 +1,5 @@
 LIBS= -lsfml-graphics -lsfml-window -lsfml-system
-LDFLAGS = -L~/Documents/Programs/builds/sfml-2.4.2/build/lib/
+LDFLAGS = 
 CXX=g++
 
 HEADERS=src/headers/

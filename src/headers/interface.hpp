@@ -7,16 +7,16 @@
 class interface
 {
     private:
-        sf :: RenderWindow* window;
-        sf :: View view;
+        sf::RenderWindow* window;
+        sf::View view;
         int h, w;
         universe u;
         double speed;
     public:
-        interface(universe vers, int w, int h, double speed);
+        interface (universe vers, int w, int h, double speed);
         //void setSize(int x, int y);
-        void move(int x, int y);
-        void run(double time);
+        void move (int x, int y);
+        void run (double time);
 };
 
 #endif

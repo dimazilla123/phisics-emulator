@@ -17,11 +17,11 @@ class universe
         vector<body*> bodies;
         vector<forceFunction> forces;
     public:
-        void addBody(body *b);
-        void addForce(forceFunction force);
-        void update(double time);
-        vector<body*> getBodies();
-        void print(int mode);
+        void addBody (body *b);
+        void addForce (forceFunction force);
+        void update (double time);
+        vector<body*> getBodies ();
+        void print (int mode);
 };
 
 #endif

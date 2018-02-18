@@ -4,6 +4,7 @@
 #include "vector2d.hpp"
 #include <map>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -16,18 +17,18 @@ class body
         vector2d forceSum;
         multimap<string,double> parameters;
     public:
-        body(double massN);
-        void setPosition(vector2d newPos);
-        vector2d getPosition();
-        void setVelocity(vector2d newVelocity);
-        vector2d getVelocity();
-        body(double massN, vector<string> parametersNames);
-        void setParameter(string name, double value);
-        double getParameter(string name);
-        double getMass();
-        void setMass(double m);
-        void move(double dt);
-        void applicateForce(body other, vector2d (*force)(body, body));
+        body (double massN);
+        void setPosition (vector2d newPos);
+        vector2d getPosition ();
+        void setVelocity (vector2d newVelocity);
+        vector2d getVelocity ();
+        body (double massN, vector<string> parametersNames);
+        void setParameter (string name, double value);
+        double getParameter (string name);
+        double getMass ();
+        void setMass (double m);
+        void move (double dt);
+        void applicateForce (body other, vector2d (*force)(body, body));
 };
 
 #endif
