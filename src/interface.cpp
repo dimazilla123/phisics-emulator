@@ -11,13 +11,14 @@ interface::interface (universe vers, int w, int h, double s)
     this->window->setFramerateLimit (220);
 }
 
-void interface::move (int x, int y)
+void interface::move (double x, double y)
 {
     this->view.move(x,y);
 }
 
 void interface::run (double time)
 {
+    this->view.setViewport (FloatRect (0, 0, 1.0, 1.0));
     while(this->window->isOpen ())
     {
         Event event;
@@ -34,11 +35,11 @@ void interface::run (double time)
                     Vector2f position (posBody.getX (), posBody.getY ());
                     Vertex vert (position, Color :: Black);
                     figure.push_back (vert);
-                }
+        }
                 figure.push_back (figure[0]);
                 //u.print(EXPORT_UNIVERSE_PRINTING_MODE);
                 u.update (time);
-                this->window->setView (this->window->getDefaultView ());
+                //this->window->setView (this->window->getDefaultView ());
                 this->window->clear (Color :: White);
                 this->window->draw (&figure[0], figure.size (), LineStrip);
                 this->window->setView (this->view);
@@ -63,12 +64,26 @@ void interface::run (double time)
                 this->u.addBody (b);
 
             }
-            /*while(Keyboard :: isKeyPressed(Keyboard :: Left))
+            while (Keyboard::isKeyPressed (Keyboard::S))
+            {
+                printf ("Scroll ");
+                double x, y;
+                scanf ("%lf %lf", &x, &y);
+                this->move (x, y);
+            }
+            while (Keyboard::isKeyPressed (Keyboard::R))
+            {
+                printf ("Enter body's index to remove: ");
+                int n;
+                scanf ("%d", &n);
+                this->u.removeBodyByIndex (n);
+            }
+            while(Keyboard :: isKeyPressed(Keyboard :: Left))
             {
                 double s = this->speed;
-                printf("moving");
-                this->move(-s, 0);
+                this->move (-s, 0);
             }
+            /*
             while(Keyboard :: isKeyPressed(Keyboard :: Right))
             {
                 double s = this->speed;

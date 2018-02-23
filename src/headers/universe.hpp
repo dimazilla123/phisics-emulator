@@ -18,6 +18,7 @@ class universe
         vector<forceFunction> forces;
     public:
         void addBody (body *b);
+        void removeBodyByIndex (int n);
         void addForce (forceFunction force);
         void update (double time);
         vector<body*> getBodies ();

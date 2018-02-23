@@ -7,6 +7,11 @@ void universe::addBody (body *b)
     this->bodies.push_back (b);
 }
 
+void universe::removeBodyByIndex (int n)
+{
+    this->bodies.erase (this->bodies.begin () + n);
+}
+
 void universe::addForce (forceFunction f)
 {
     this->forces.push_back (f);

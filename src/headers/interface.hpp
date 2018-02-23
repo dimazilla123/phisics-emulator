@@ -15,7 +15,7 @@ class interface
     public:
         interface (universe vers, int w, int h, double speed);
         //void setSize(int x, int y);
-        void move (int x, int y);
+        void move (double x, double y);
         void run (double time);
 };
 

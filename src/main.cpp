@@ -17,7 +17,7 @@ vector2d constForce (body a, body b)
 
 vector2d gravitation (body a, body b)
 {
-    double G = 6.7;
+    double G = 1;
     vector2d aPos = a.getPosition ();
     vector2d bPos = b.getPosition ();
     double m1 = a.getMass (), m2 = b.getMass ();
@@ -28,7 +28,7 @@ vector2d gravitation (body a, body b)
 int main(int argc, char** argv)
 {
     int wight = 900, hight = 600;
-    double time = 0.001, speed = 10;
+    double time = 0.001, speed = 1;
     if(argc > 1) time = atof (argv[1]);
     if(argc > 2) wight == atoi (argv[2]);
     if(argc > 3) hight = atoi (argv[3]);
