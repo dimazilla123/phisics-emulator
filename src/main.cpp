@@ -15,6 +15,14 @@ vector2d constForce (body a, body b)
     return (bPos - aPos).direction () * k;
 }
 
+vector2d goock_force (body a, body b)
+{
+    double k = 20;
+    vector2d aPos = a.getPosition ();
+    vector2d bPos = b.getPosition ();
+    return (bPos - aPos) * k;
+}
+
 vector2d gravitation (body a, body b)
 {
     double G = 1;
@@ -34,18 +42,8 @@ int main(int argc, char** argv)
     if(argc > 3) hight = atoi (argv[3]);
     if(argc > 4) speed = atof (argv[4]);
 
-    body b1 (1), b2 (1);
-
-    b1.setPosition (vector2d (wight / 2 + 10, hight / 2));
-    b2.setPosition (vector2d (wight / 2 - 10, hight / 2));
-
-    b1.setVelocity (vector2d (0, 30));
-    b2.setVelocity (vector2d (0, -10));
-
     universe u;
-    u.addBody (&b1);
-    u.addBody (&b2);
-    u.addForce (&constForce);
+    u.addForce (&goock_force);
 
     interface interf (u, wight, hight, speed);
     interf.run (time);
