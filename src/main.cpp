@@ -44,6 +44,10 @@ int main(int argc, char** argv)
     universe u;
     u.addForce (&goock_force);
 
+    body b1 (1), b2(2);
+    b1.setPosition (vector2d (200, 200));
+    b2.setPosition (vector2d (300, 200));
+
     QApplication app (argc, argv);
 
     interface interf (u, wight, hight, speed);

@@ -26,4 +26,6 @@ void interface::run (double time)
     }
     this->canvas->draw_points (&positions);
     positions.erase (positions.begin (), positions.end ());
+
+    this->u.update (time);
 }
