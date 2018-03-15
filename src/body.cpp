@@ -11,6 +11,7 @@ body::body(double m, vector<string> params)
 {
     this->forceSum = vector2d ();
     this->velocity = vector2d ();
+    this->mass = m;
     for(string name : params)
     {
         this->parameters.insert (pair<string,double> (name, 0));

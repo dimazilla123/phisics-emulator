@@ -1,110 +1,29 @@
 #include "interface.hpp"
-
-using namespace sf;
+#include <vector>
 
 interface::interface (universe vers, int w, int h, double s)
 {
     this->u = vers;
     this->speed = s;
-    this->window = new RenderWindow (VideoMode (w,h), "interface");
-    this->view = this->window->getDefaultView ();
-    this->window->setFramerateLimit (220);
+    this->canvas = new Canvas(this);
+}
+
+interface::~interface ()
+{
 }
 
 void interface::move (double x, double y)
 {
-    this->view.move(x,y);
 }
 
 void interface::run (double time)
 {
-    this->view.setViewport (FloatRect (0, 0, 1.0, 1.0));
-    while(this->window->isOpen ())
+    this->show ();
+    std::vector<vector2d> positions;
+    for (auto body_ptr : this->u.getBodies ())
     {
-        Event event;
-        vector<Vertex> figure;
-        while(this->window->pollEvent (event))
-        {
-            while(Keyboard::isKeyPressed (Keyboard::Space))
-            {
-                figure.clear ();
-                vector<body*> bodies = this->u.getBodies ();
-                for(body *b : bodies)
-                {
-                    vector2d posBody = b->getPosition ();
-                    Vector2f position (posBody.getX (), posBody.getY ());
-                    Vertex vert (position, Color :: Black);
-                    figure.push_back (vert);
-        }
-                figure.push_back (figure[0]);
-                //u.print(EXPORT_UNIVERSE_PRINTING_MODE);
-                u.update (time);
-                //this->window->setView (this->window->getDefaultView ());
-                this->window->clear (Color :: White);
-                this->window->draw (&figure[0], figure.size (), LineStrip);
-                this->window->setView (this->view);
-                this->window->display ();
-            }
-            while(Keyboard::isKeyPressed (Keyboard::T))
-            {
-                printf ("Body's mass: ");
-                double m;
-                scanf ("%lf", &m);
-                printf ("Body's speed: ");
-                double x_vel, y_vel;
-                scanf("%lf %lf", &x_vel, &y_vel);
-                printf ("Body's position: ");
-                double x, y;
-                scanf("%lf %lf", &x, &y);
-                vector2d pos = vector2d (x, y), vel = vector2d (x_vel, y_vel);
-
-                body* b = new body (m);
-                b->setPosition (pos);
-                b->setVelocity (vel);
-                this->u.addBody (b);
-
-            }
-            while (Keyboard::isKeyPressed (Keyboard::S))
-            {
-                printf ("Scroll ");
-                double x, y;
-                scanf ("%lf %lf", &x, &y);
-                this->move (x, y);
-            }
-            while (Keyboard::isKeyPressed (Keyboard::R))
-            {
-                printf ("Enter body's index to remove: ");
-                int n;
-                scanf ("%d", &n);
-                this->u.removeBodyByIndex (n);
-            }
-            while(Keyboard :: isKeyPressed(Keyboard :: Left))
-            {
-                double s = this->speed;
-                this->move (-s, 0);
-            }
-            /*
-            while(Keyboard :: isKeyPressed(Keyboard :: Right))
-            {
-                double s = this->speed;
-                printf("moving");
-                this->move(s, 0);
-            }
-            while(Keyboard :: isKeyPressed(Keyboard :: Up))
-            {
-                double s = this->speed;
-                printf("moving");
-                this->move(0, s);
-            }
-            while(Keyboard :: isKeyPressed(Keyboard :: Left))
-            {
-                double s = this->speed;
-                printf("moving");
-                this->move(0, -s);
-            }*/
-            while(Keyboard :: isKeyPressed(Keyboard :: Return))
-                this->view = this->window->getDefaultView();
-        }
+        positions.push_back (body_ptr->getPosition ());
     }
-
+    this->canvas->draw_points (&positions);
+    positions.erase (positions.begin (), positions.end ());
 }

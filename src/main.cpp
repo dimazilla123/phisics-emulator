@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <QApplication>
 #include "vector2d.hpp"
 #include "body.hpp"
 #include "universe.hpp"
 #include "interface.hpp"
-
-using namespace sf;
 
 vector2d constForce (body a, body b)
 {
@@ -45,8 +44,13 @@ int main(int argc, char** argv)
     universe u;
     u.addForce (&goock_force);
 
+    QApplication app (argc, argv);
+
     interface interf (u, wight, hight, speed);
+    interf.show ();
     interf.run (time);
+
+    app.exec ();
 
     return 0;
 }

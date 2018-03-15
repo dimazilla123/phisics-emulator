@@ -7,7 +7,8 @@ TARGET = phisic-emulator
 INCLUDEPATH += src/headers/
 LIBS += -lsfml-graphics -lsfml-window -lsfml-system
 OBJECTS_DIR += obj/
-CONFIG -= qt
+QT += gui widgets
+CONFIG += qt debug
 
 # The following define makes your compiler warn you if you use any
 # feature of Qt which has been marked as deprecated (the exact warnings
@@ -24,9 +25,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += src/headers/body.hpp \
            src/headers/interface.hpp \
            src/headers/universe.hpp \
-           src/headers/vector2d.hpp
+           src/headers/vector2d.hpp \
+           src/headers/canvas.hpp
 SOURCES += src/body.cpp \
            src/interface.cpp \
            src/main.cpp \
            src/universe.cpp \
-           src/vector2d.cpp
+           src/vector2d.cpp \
+           src/canvas.cpp
