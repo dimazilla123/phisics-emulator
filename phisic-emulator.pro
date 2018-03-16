@@ -5,7 +5,6 @@
 TEMPLATE = app
 TARGET = phisic-emulator
 INCLUDEPATH += src/headers/
-LIBS += -lsfml-graphics -lsfml-window -lsfml-system
 OBJECTS_DIR += obj/
 QT += gui widgets
 CONFIG += qt debug

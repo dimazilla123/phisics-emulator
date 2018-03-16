@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include <QWidget>
+#include <QPushButton>
 #include "universe.hpp"
 #include "canvas.hpp"
 
@@ -14,12 +15,14 @@ class interface : public QWidget
         int h, w;
         universe u;
         double speed;
+        double time;
     public:
         interface (universe vers, int w, int h, double speed);
         ~interface ();
-        //void setSize(int x, int y);
         void move (double x, double y);
         void run (double time);
+    public slots:
+        void update_universe ();
 };
 
 #endif

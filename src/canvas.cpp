@@ -2,27 +2,36 @@
 
 void Canvas::paintEvent (QPaintEvent *event)
 {
-    this->painter->drawPolyline (*(this->p));
+    QPainter paint (this);
+    paint.setBrush(QBrush(Qt::blue, Qt::SolidPattern));
+    paint.setPen (QPen(Qt::black, 1, Qt::SolidLine, Qt::FlatCap));
+    paint.drawPolyline (*(this->polygon));
 }
 
 Canvas::Canvas (QWidget *parent) : QWidget (parent)
 {
-    this->painter = new QPainter (this);
-    this->painter->setBrush(QBrush(Qt::black, Qt::SolidPattern));
+    this->polygon = new QPolygon ();
 }
 Canvas::~Canvas ()
 {
 }
 
+void Canvas::redraw ()
+{
+    update ();
+}
+
 void Canvas::draw_points (std::vector<vector2d> *points)
 {
-    delete this->p;
-    this->p = new QPolygon ();
+    delete this->polygon;
+
+    QVector<QPoint> figure;
 
     for (auto point : *points)
     {
         int x = point.getX (), y = point.getY ();
-        *(this->p) << QPoint (x, y);
+        figure.push_back (QPoint (x, y));
     }
-    repaint ();
+    this->polygon = new QPolygon (figure);
+    update ();
 }
