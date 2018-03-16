@@ -4,6 +4,9 @@
 #include <QApplication>
 #include <QWidget>
 #include <QPushButton>
+#include <QCheckBox>
+#include <QTimer>
+#include <QGridLayout>
 #include "universe.hpp"
 #include "canvas.hpp"
 
@@ -16,6 +19,7 @@ class interface : public QWidget
         universe u;
         double speed;
         double time;
+        QCheckBox* update_initor;
     public:
         interface (universe vers, int w, int h, double speed);
         ~interface ();
