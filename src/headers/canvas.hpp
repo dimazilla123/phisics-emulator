@@ -18,7 +18,8 @@ protected:
 public:
     QPainter* painter;
     void draw_points (std::vector<vector2d> *points);
-    Canvas(QWidget *parent);
+    Canvas (QWidget *parent);
+    Canvas ();
     ~Canvas();
 
 };

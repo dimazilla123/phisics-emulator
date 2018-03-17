@@ -12,6 +12,10 @@ Canvas::Canvas (QWidget *parent) : QWidget (parent)
 {
     this->polygon = new QPolygon ();
 }
+Canvas::Canvas () : QWidget ()
+{
+    this->polygon = new QPolygon ();
+}
 Canvas::~Canvas ()
 {
 }
@@ -32,6 +36,7 @@ void Canvas::draw_points (std::vector<vector2d> *points)
         int x = point.getX (), y = point.getY ();
         figure.push_back (QPoint (x, y));
     }
+    //figure.push_back (points->at(0));
     this->polygon = new QPolygon (figure);
     update ();
 }

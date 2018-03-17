@@ -32,21 +32,11 @@ vector2d gravitation (body a, body b)
 
 int main(int argc, char** argv)
 {
-    int wight = 900, hight = 600;
+    int wight = 600, hight = 400;
     double time = 0.001, speed = 1;
 
     universe u;
     u.addForce (&goock_force);
-
-    body b1 (1), b2(2), b3(3);
-    b1.setPosition (vector2d (200, 200));
-    b2.setPosition (vector2d (300, 200));
-    b3.setPosition (vector2d (250, 250));
-
-
-    u.addBody (&b1);
-    u.addBody (&b2);
-    u.addBody (&b3);
 
     QApplication app (argc, argv);
 

@@ -7,6 +7,10 @@
 #include <QCheckBox>
 #include <QTimer>
 #include <QGridLayout>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGroupBox>
+#include <QLineEdit>
 #include "universe.hpp"
 #include "canvas.hpp"
 
@@ -20,6 +24,12 @@ class interface : public QWidget
         double speed;
         double time;
         QCheckBox* update_initor;
+        QGroupBox* body_add_widget;
+        QLineEdit* mass_input;
+        QLineEdit* pos_x_input;
+        QLineEdit* pos_y_input;
+        QLineEdit* vel_x_input;
+        QLineEdit* vel_y_input;
     public:
         interface (universe vers, int w, int h, double speed);
         ~interface ();
@@ -27,6 +37,7 @@ class interface : public QWidget
         void run (double time);
     public slots:
         void update_universe ();
+        void addBody ();
 };
 
 #endif
