@@ -38,8 +38,19 @@ interface::interface (universe vers, int w, int h, double s)
     this->setLayout (gloabal_layout);
 
     QTimer *timer = new QTimer (this);
+
+    QShortcut *up = new QShortcut (QKeySequence (Qt::Key_Up), this);
+    QShortcut *down = new QShortcut (QKeySequence (Qt::Key_Down), this);
+    QShortcut *left = new QShortcut (QKeySequence (Qt::Key_Left), this);
+    QShortcut *right = new QShortcut (QKeySequence (Qt::Key_Right), this);
+
     connect (timer, SIGNAL(timeout ()), this, SLOT (update_universe ()));
     connect (add_body_button, SIGNAL(clicked ()), this, SLOT (addBody ()));
+
+    connect (up, SIGNAL (activated ()), this, SLOT (move_up ()));
+    connect (down, SIGNAL (activated ()), this, SLOT (move_down ()));
+    connect (left, SIGNAL (activated ()), this, SLOT (move_left ()));
+    connect (right, SIGNAL (activated ()), this, SLOT (move_right ()));
 
     timer->start (100);
 }
@@ -50,6 +61,8 @@ interface::~interface ()
 
 void interface::move (double x, double y)
 {
+    vector2d offset (x, y);
+    this->u.move_all (offset);
 }
 
 void interface::update_universe ()
@@ -94,4 +107,21 @@ void interface::run (double time)
 {
     this->show ();
     this->time = time;
+}
+
+void interface::move_up ()
+{
+    this->u.move_all (vector2d (0, this->speed));
+}
+void interface::move_down ()
+{
+    this->u.move_all (vector2d (0, -(this->speed)));
+}
+void interface::move_left ()
+{
+    this->u.move_all (vector2d (this->speed, 0));
+}
+void interface::move_right ()
+{
+    this->u.move_all (vector2d (-(this->speed), 0));
 }

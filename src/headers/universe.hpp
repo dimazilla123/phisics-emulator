@@ -23,6 +23,7 @@ class universe
         void update (double time);
         vector<body*> getBodies ();
         void print (int mode);
+        void move_all (vector2d offset);
 };
 
 #endif

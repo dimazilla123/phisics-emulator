@@ -15,12 +15,12 @@ class vector2d
         double distance ();
         vector2d direction ();
         vector2d operator +(vector2d other);
-        vector2d operator +=(vector2d other);
+        void operator +=(vector2d other);
         vector2d operator -(vector2d other);
-        vector2d operator -=(vector2d other);
+        void operator -=(vector2d other);
         vector2d operator *(double num);
-        vector2d operator *=(double num);
+        void operator *=(double num);
         vector2d operator /(double num);
-        vector2d operator /=(double num);
+        void operator /=(double num);
 };
 #endif

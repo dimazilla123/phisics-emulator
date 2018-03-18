@@ -27,7 +27,7 @@ void universe::update (double time)
             if(a != b)
             {
                 a->applicateForce (*b, f);
-                b->applicateForce (*a, f);
+//                b->applicateForce (*a, f);
             }
         }
     }
@@ -60,4 +60,13 @@ void universe::print (int mode)
         }
     }
     putchar('\n');
+}
+
+void universe::move_all (vector2d offset)
+{
+    for (auto *b : this->bodies)
+    {
+        vector2d cur_pos = b->getPosition ();
+        b->setPosition (cur_pos + offset);
+    }
 }
