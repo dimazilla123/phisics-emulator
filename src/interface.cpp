@@ -52,7 +52,7 @@ interface::interface (universe vers, int w, int h, double s)
     connect (left, SIGNAL (activated ()), this, SLOT (move_left ()));
     connect (right, SIGNAL (activated ()), this, SLOT (move_right ()));
 
-    timer->start (100);
+    timer->start (10);
 }
 
 interface::~interface ()
@@ -112,16 +112,20 @@ void interface::run (double time)
 void interface::move_up ()
 {
     this->u.move_all (vector2d (0, this->speed));
+    this->canvas->redraw ();
 }
 void interface::move_down ()
 {
     this->u.move_all (vector2d (0, -(this->speed)));
+    this->canvas->redraw ();
 }
 void interface::move_left ()
 {
     this->u.move_all (vector2d (this->speed, 0));
+    this->canvas->redraw ();
 }
 void interface::move_right ()
 {
     this->u.move_all (vector2d (-(this->speed), 0));
+    this->canvas->redraw ();
 }

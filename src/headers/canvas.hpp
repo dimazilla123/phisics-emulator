@@ -10,9 +10,7 @@ class Canvas : public QWidget
 {
     Q_OBJECT
 private:
-    QPolygon *polygon;
-private slots:
-    void redraw ();
+    QVector<QPointF> body_positions;
 protected:
     void paintEvent (QPaintEvent *event);
 public:
@@ -21,5 +19,6 @@ public:
     Canvas (QWidget *parent);
     Canvas ();
     ~Canvas();
-
+public slots:
+    void redraw ();
 };

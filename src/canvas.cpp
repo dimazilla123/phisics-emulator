@@ -5,16 +5,19 @@ void Canvas::paintEvent (QPaintEvent *event)
     QPainter paint (this);
     paint.setBrush(QBrush(Qt::blue, Qt::SolidPattern));
     paint.setPen (QPen(Qt::black, 1, Qt::SolidLine, Qt::FlatCap));
-    paint.drawPolyline (*(this->polygon));
+    for (auto point : body_positions)
+    {
+        paint.drawEllipse (point, 10, 10);
+    }
 }
 
 Canvas::Canvas (QWidget *parent) : QWidget (parent)
 {
-    this->polygon = new QPolygon ();
+    this->setStyleSheet ("background-color:white;");
 }
 Canvas::Canvas () : QWidget ()
 {
-    this->polygon = new QPolygon ();
+    this->setStyleSheet ("background-color:white;");
 }
 Canvas::~Canvas ()
 {
@@ -27,16 +30,12 @@ void Canvas::redraw ()
 
 void Canvas::draw_points (std::vector<vector2d> *points)
 {
-    delete this->polygon;
-
-    QVector<QPoint> figure;
+    this->body_positions.clear ();
 
     for (auto point : *points)
     {
-        int x = point.getX (), y = point.getY ();
-        figure.push_back (QPoint (x, y));
+        double x = point.getX (), y = point.getY ();
+        this->body_positions.push_back (QPointF (x, y));
     }
-    //figure.push_back (points->at(0));
-    this->polygon = new QPolygon (figure);
     update ();
 }
