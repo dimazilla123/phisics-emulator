@@ -6,7 +6,10 @@ interface::interface (universe vers, int w, int h, double s)
     this->u = vers;
     this->speed = s;
 
-    this->canvas = new Canvas;
+    QGroupBox *canvas_box = new QGroupBox ("Universe");
+    canvas_box->setMinimumSize (w, h);
+
+    this->canvas = new Canvas (canvas_box);
     this->canvas->setMinimumSize (w, h);
     this->body_add_widget = new QGroupBox ("Add bodies");
     this->update_initor = new QCheckBox ("Update");
@@ -21,7 +24,7 @@ interface::interface (universe vers, int w, int h, double s)
     QVBoxLayout *gloabal_layout = new QVBoxLayout;
     QVBoxLayout *body_add_layout = new QVBoxLayout;
     
-    gloabal_layout->addWidget (this->canvas);
+    gloabal_layout->addWidget (canvas_box);
     gloabal_layout->addWidget (this->update_initor);
 
     body_add_layout->addWidget (this->mass_input);
