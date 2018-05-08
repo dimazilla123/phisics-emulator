@@ -28,8 +28,8 @@ int formula (std::string s, int* analised, vector2d* vec, double* ret)
             int next_status;
             while (*analised < s.size ())
             {
-                vector2d* next_vec = new vector2d ();
-                double* next_ret = new double;
+                vector2d next_vec;
+                double next_ret;
                 sign = 1;
                 if (s[*analised] == '-')
                     sign = -1;
@@ -39,7 +39,7 @@ int formula (std::string s, int* analised, vector2d* vec, double* ret)
                     return PARSE_FAIL;
                 }
                 ++*(analised);
-                next_status = sum (s, analised, next_vec, next_ret);
+                next_status = sum (s, analised, &next_vec, &next_ret);
                 if (next_status != status)
                 {
                     std::cout << "Type sum error at " << *analised << std::endl;
@@ -47,11 +47,11 @@ int formula (std::string s, int* analised, vector2d* vec, double* ret)
                 }
                 else if (next_status == PARSE_VECTOR)
                 {
-                    *(vec) += *(next_vec) * sign;
+                    *(vec) += next_vec * sign;
                 }
                 else
                 {
-                    *(ret) += *(next_ret) * sign;
+                    *(ret) += next_ret * sign;
                 }
             }
         }
@@ -59,6 +59,57 @@ int formula (std::string s, int* analised, vector2d* vec, double* ret)
 }
 
 int sum (std::string s, int* analised, vector2d* vec, double* ret)
+{
+    int status = prod (s, analised, vec, ret);
+    if (status == PARSE_FAIL)
+    {
+        std::cout << "Prod error at " << *analised << std::endl;
+    }
+    else
+    {
+        double new_ret = 0;
+        vector2d new_vec;
+        int new_status;
+        while ((s[*analised] == '/' || s[*analised] == '*' ) && *analised < s.size ())
+        {
+            char act = s[*analised];
+            
+            ++*analised;
+            new_status = prod (s, analised, &new_vec, &new_ret);
+            if (new_status != PARSE_FAIL)
+            {
+                if (new_status == status && status == PARSE_VECTOR)
+                {
+                    std::cout << "Type error at " << *analised << std::endl;
+                    return PARSE_FAIL;
+                }
+                if (act == '*')
+                {
+                    if (status == PARSE_NUM && new_status == PARSE_NUM)
+                    {
+                        *ret *= new_ret;
+                    }
+                    if (status == PARSE_VECTOR && new_status == PARSE_NUM)
+                    {
+                        *vec *= new_ret;
+                    }
+                    if (status == PARSE_NUM && new_status == PARSE_VECTOR)
+                    {
+                        *vec = new_vec *(*ret) ;
+                    }
+                }
+            }
+        }
+        return status;
+    }
+}
+
+int prod(std::string s, int* analised, vector2d* vec, double* ret)
+{
+    return num (s, analised, vec, ret);
+}
+
+int num (std::string s, int* analised, vector2d* vec, double* ret)
 {
     int x = 0;
     while ('0' <= s[*analised] && s[*analised] <= '9')

@@ -19,6 +19,7 @@
 int formula (std::string s, int* analised, vector2d* vec, double* ret);
 int sum (std::string s, int* analised, vector2d* vec, double* ret);
 int prod (std::string s, int* analised, vector2d* vec, double* ret);
+int num (std::string s, int* analised, vector2d* vec, double* ret);
 
 #endif
 
