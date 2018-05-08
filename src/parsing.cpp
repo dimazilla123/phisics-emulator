@@ -106,6 +106,17 @@ int sum (std::string s, int* analised, vector2d* vec, double* ret)
 
 int prod(std::string s, int* analised, vector2d* vec, double* ret)
 {
+    if (s[*analised] == '(')
+    {
+        int status = formula (s, analised, vec, ret);
+        if (s[*analised] == ')')
+            return status;
+        else
+        {
+            std::cout << ") excepted at " << *analised << std::endl;
+            return PARSE_FAIL;
+        }
+    }
     return num (s, analised, vec, ret);
 }
 
