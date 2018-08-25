@@ -2,133 +2,52 @@
 #include <string>
 #include <iostream>
 
-int formula (std::string s, int* analised, vector2d* vec, double* ret)
+template<typename A, typename B>
+Parser<B> operator >>=(Parser<A> p, std::function<Parser<B>(A, std::string&, int)> f)
 {
-    if (*analised < s.size ())
+    if (!p.is_failed)
     {
-        int sign;
-        if (s[*analised] == '+')
-        {
-            sign = 1;
-            ++*(analised);
-        }
-        else if (s[*analised] == '-')
-        {
-            ++*(analised);
-            sign = -1;
-        }
-        int status = sum (s, analised, vec, ret);
-        if (status == PARSE_FAIL)
-        {
-            std::cout << "Parse error: sum expected at " << *analised << std::endl;
-            return PARSE_FAIL;
-        }
-        else
-        {
-            int next_status;
-            while (*analised < s.size ())
-            {
-                vector2d next_vec;
-                double next_ret;
-                sign = 1;
-                if (s[*analised] == '-')
-                    sign = -1;
-                else if (s[*analised] != '+')
-                {
-                    std::cout << "Sign expected at " << *analised << std::endl;
-                    return PARSE_FAIL;
-                }
-                ++*(analised);
-                next_status = sum (s, analised, &next_vec, &next_ret);
-                if (next_status != status)
-                {
-                    std::cout << "Type sum error at " << *analised << std::endl;
-                    return PARSE_FAIL;
-                }
-                else if (next_status == PARSE_VECTOR)
-                {
-                    *(vec) += next_vec * sign;
-                }
-                else
-                {
-                    *(ret) += next_ret * sign;
-                }
-            }
-        }
-    }
-}
-
-int sum (std::string s, int* analised, vector2d* vec, double* ret)
-{
-    int status = prod (s, analised, vec, ret);
-    if (status == PARSE_FAIL)
-    {
-        std::cout << "Prod error at " << *analised << std::endl;
+        return f(p.data);
     }
     else
     {
-        double new_ret = 0;
-        vector2d new_vec;
-        int new_status;
-        while ((s[*analised] == '/' || s[*analised] == '*' ) && *analised < s.size ())
-        {
-            char act = s[*analised];
-            
-            ++*analised;
-            new_status = prod (s, analised, &new_vec, &new_ret);
-            if (new_status != PARSE_FAIL)
-            {
-                if (new_status == status && status == PARSE_VECTOR)
-                {
-                    std::cout << "Type error at " << *analised << std::endl;
-                    return PARSE_FAIL;
-                }
-                if (act == '*')
-                {
-                    if (status == PARSE_NUM && new_status == PARSE_NUM)
-                    {
-                        *ret *= new_ret;
-                    }
-                    if (status == PARSE_VECTOR && new_status == PARSE_NUM)
-                    {
-                        *vec *= new_ret;
-                    }
-                    if (status == PARSE_NUM && new_status == PARSE_VECTOR)
-                    {
-                        *vec = new_vec *(*ret) ;
-                    }
-                }
-            }
-        }
-        return status;
+        auto r = Parser<B>(p.str, p.pos);
+        r.is_failed = true;
+        return r;
     }
 }
 
-int prod(std::string s, int* analised, vector2d* vec, double* ret)
+template<typename A, typename B>
+Parser<B> operator >>(Parser<A> pa, Parser<B> pb)
 {
-    if (s[*analised] == '(')
-    {
-        int status = formula (s, analised, vec, ret);
-        if (s[*analised] == ')')
-            return status;
-        else
-        {
-            std::cout << ") excepted at " << *analised << std::endl;
-            return PARSE_FAIL;
-        }
-    }
-    return num (s, analised, vec, ret);
+    return pa >>= [=](A){return pb;};
 }
 
-int num (std::string s, int* analised, vector2d* vec, double* ret)
+template<typename A>
+Parser<int> num(A, std::string s, int pos)
 {
     int x = 0;
-    while ('0' <= s[*analised] && s[*analised] <= '9')
+    int strt = pos;
+    while (pos < s.size() && '0' <= s[pos] && s[pos] <= '9')
     {
         x *= 10;
-        x += s[*analised] - '0';
-        ++*(analised);
+        x += s[pos] - '0';
+        pos++;
     }
-    *(ret) = x;
-    return PARSE_NUM;
+    if (strt == pos)
+    {
+        auto fail = Parser<int>(s, x, pos);
+        fail.is_failed = true;
+        return fail;
+    }
+    else
+        return Parser<int>(s, x, pos);
+}
+
+int main(int argc, char const* argv[])
+{
+    std::string s;
+    std::cin >> s;
+    Parser<int> p = Parser<int>(s, 0, 0) >>= num;
+    return 0;
 }
