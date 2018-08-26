@@ -21,18 +21,17 @@ template<class T>
 struct Parser
 {
     T data;
-    std::string &str;
+    std::string str;
     bool is_failed;
     int to_parse;
-    Parser<T>(std::string s, T v, int pos)
+    Parser<T>(std::string &s, T v, int pos)
     {
         str = s;
         data = v;
         is_failed = false;
         to_parse = pos;
     }
-
-    Parser<T>(std::string s, int pos)
+    Parser<T>(std::string &s, int pos)
     {
         str = s;
         is_failed = false;
@@ -41,11 +40,13 @@ struct Parser
 };
 
 template<typename A, typename B>
-Parser<B> operator >>=(Parser<A>, std::function<Parser<B>(A, std::string&, int)>);
+//Parser<B> operator >=(Parser<A> p, Parser<B> &f(std::string&, int));
+Parser<B> operator >=(Parser<A>, std::function<Parser<B>(std::string&, int)>);
 
 template<typename A, typename B>
 Parser<B> operator >>(Parser<A>, Parser<B>);
 
+Parser<int> formula(std::string& s, int pos);
 /*
 int formula (std::string s, int* analised, vector2d* vec, double* ret);
 int sum (std::string s, int* analised, vector2d* vec, double* ret);
