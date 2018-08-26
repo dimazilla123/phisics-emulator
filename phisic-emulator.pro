@@ -21,11 +21,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # Input
-HEADERS += src/headers/body.hpp \
-           src/headers/interface.hpp \
-           src/headers/universe.hpp \
-           src/headers/vector2d.hpp \
-           src/headers/canvas.hpp
+HEADERS += src/body.hpp \
+           src/interface.hpp \
+           src/universe.hpp \
+           src/vector2d.hpp \
+           src/canvas.hpp
 SOURCES += src/body.cpp \
            src/interface.cpp \
            src/main.cpp \
