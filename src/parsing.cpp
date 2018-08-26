@@ -10,7 +10,7 @@ Parser<B> operator >=(Parser<A> p, std::function<Parser<B>(std::string&, int)> (
     {
         return f(p.str, p.to_parse);
     }
-    std::cerr << "Error at " << p.to_parse << std::endl;
+    //std::cerr << "Error at " << p.to_parse << std::endl;
     auto r = Parser<B>(p.str, p.to_parse);
     r.is_failed = true;
     return r;
@@ -19,7 +19,8 @@ Parser<B> operator >=(Parser<A> p, std::function<Parser<B>(std::string&, int)> (
 template<typename A, typename B>
 Parser<B> operator >>(Parser<A> pa, Parser<B> pb)
 {
-    return pa >>= [=](A){return pb;};
+    std::function<Parser<B>(std::string&, int)> f = ([pb](std::string&, int) -> Parser<B>{return pb;});
+    return pa >= f;
 }
 
 template<typename A>
@@ -51,6 +52,16 @@ Parser<int> num(std::string &s, int pos)
         return Parser<int>(s, x, pos);
 }
 
+template<typename A>
+Parser<A> operator <=(Parser<A> p, A &var)
+{
+    if (!p.is_failed) 
+    {
+        var = p.data;
+    }
+    return p;
+}
+
 /*(Parser<char>(std::string&, int)) &parse_char(char c)
 {
     return [=](std::string& s, int pos)
@@ -63,7 +74,7 @@ typedef struct parse_char
     std::string c;
     parse_char()
     {
-        c = ' ';
+        c = " ";
     }
     parse_char(std::string s)
     {
@@ -91,49 +102,51 @@ std::function<Parser<char>(std::string&, int)> pchar(std::string c)
 {
     return std::function<Parser<char>(std::string&, int)>(parse_char(c));
 }
+template<typename T>
+struct change_val
+{
+    T v;
+    change_val(T x)
+    {
+        v = x;
+    }
+    Parser<T> operator ()(std::string& s, int pos)
+    {
+        return Parser<T>(s, v, pos);
+    }
+};
+
+template<typename T>
+std::function<Parser<T>(std::string&, int)> pchange(T v)
+{
+    return change_val<T>(v);
+}
 
 Parser<int> prod(std::string& s, int pos)
 {
     std::function<Parser<int>(std::string&, int)> pnum = num;
     std::function<Parser<int>(std::string&, int)> pformula = formula;
-    Parser<int> p(s, pos);
-    p = pchar("(")(s, pos) >= pformula;
-    auto bracket = p >= pchar(")");
-    if (bracket.is_failed)
-    {
-        p = pnum(s, pos);
-    }
-    else
-    {
-        p.to_parse = bracket.to_parse;
-    }
-    int prod = p.data;
+    int prod = 0;
+    auto p = ((pchar("(")(s, pos) >= pformula <= prod >= pchar(")")) >= pchange(prod)) | ((pnum(s, pos) <= prod));
     auto op = p >= pchar("*/");
     while (!op.is_failed)
     {
-        auto step = p >= pchar("*/") >= pchar("(") >= pformula;
-        bracket = step >= pchar(")");
-        if (bracket.is_failed)
-        {
-            p = p >= pnum;
-        }
-        else
-        {
-            p = step;
-            p.to_parse = bracket.to_parse;
-        }
+        int mult = 0;
+        p = ((op >= pchar("(") >= pformula) <= mult >= pchar(")") >= pchange(mult)) | (op >= pnum <= mult);
         if (op.data == '*')
         {
-            prod *= p.data;
+            prod *= mult;
         }
         else
         {
-            prod /= p.data;
+            prod /= mult;
         }
         op = p >= pchar("*/");
     }
-    p.data = prod;
-    return p;
+
+    auto ret = Parser<int>(s, prod, p.to_parse);
+    ret.is_failed = p.is_failed;
+    return ret;
 }
 
 Parser<int> formula(std::string& s, int pos)
