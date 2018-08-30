@@ -72,8 +72,8 @@ Parser<Stack> name(std::string &s, int pos)
         str.push_back(s[pos]);
         pos++;
     }
-    auto p = Parser<Stack>(s, Stack({str}), pos);
-    p.is_failed = str.empty();
+    auto tmp = pchar("_")(s, pos) >= pchar("12");
+    auto p = Parser<Stack>(s, Stack({str + "_" + tmp.data}), tmp.to_parse);
     return p;
 }
 

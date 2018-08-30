@@ -3,6 +3,7 @@
 
 #include <string>
 #include <functional>
+#include <vector>
 #include "vector2d.hpp"
 
 #define PARSE_VECTOR 0
@@ -39,13 +40,17 @@ struct Parser
     }
 };
 
+std::function<Parser<char>(std::string&, int)> pchar(std::string c);
 template<typename A, typename B>
-//Parser<B> operator >=(Parser<A> p, Parser<B> &f(std::string&, int));
 Parser<B> operator >=(Parser<A>, std::function<Parser<B>(std::string&, int)>);
+template<typename A, typename B>
+Parser<B> operator >=(Parser<A>, Parser<B>(&f)(std::string&, int));
 
 template<typename A, typename B>
 Parser<B> operator >>(Parser<A>, Parser<B>);
 
-Parser<int> formula(std::string& s, int pos);
+using Stack = std::vector<std::string>;
+
+Parser<Stack> formula(std::string& s, int pos);
 #endif
 
