@@ -2,9 +2,23 @@
 #include <string>
 #include <iostream>
 
+
 template<typename A, typename B>
 Parser<B> operator >=(Parser<A> p, std::function<Parser<B>(std::string&, int)> (f))
 //Parser<B> operator >=(Parser<A> p, Parser<B> (&f)(std::string&, int))
+{
+    if (!p.is_failed)
+    {
+        return f(p.str, p.to_parse);
+    }
+    //std::cerr << "Error at " << p.to_parse << std::endl;
+    auto r = Parser<B>(p.str, p.to_parse);
+    r.is_failed = true;
+    return r;
+}
+
+template<typename A, typename B>
+Parser<B> operator >=(Parser<A> p, Parser<B> (&f)(std::string&, int))
 {
     if (!p.is_failed)
     {
@@ -26,30 +40,41 @@ Parser<B> operator >>(Parser<A> pa, Parser<B> pb)
 template<typename A>
 Parser<A> operator |(Parser<A> pa, Parser<A> pb)
 {
-    if (pa.is_failed)
-        return pb;
-    else
+    if (!pa.is_failed)
         return pa;
+    else
+        return pb;
 }
 
-Parser<int> num(std::string &s, int pos)
+/*Parser<void> end_parse(std::string &s, int pos)
 {
-    int x = 0;
-    int strt = pos;
+    return Parser<void>(s, pos);
+}*/
+
+Parser<Stack> num(std::string &s, int pos)
+{
+    std::string str = "";
     while (pos < s.size() && '0' <= s[pos] && s[pos] <= '9')
     {
-        x *= 10;
-        x += s[pos] - '0';
+        str.push_back(s[pos]);
         pos++;
     }
-    if (strt == pos)
+    auto p = Parser<Stack>(s, Stack({str}), pos);
+    p.is_failed = str.empty();
+    return p;
+}
+
+Parser<Stack> name(std::string &s, int pos)
+{
+    std::string str = "";
+    while (pos < s.size() && 'a' <= s[pos] && s[pos] <= 'z')
     {
-        auto fail = Parser<int>(s, x, pos);
-        fail.is_failed = true;
-        return fail;
+        str.push_back(s[pos]);
+        pos++;
     }
-    else
-        return Parser<int>(s, x, pos);
+    auto p = Parser<Stack>(s, Stack({str}), pos);
+    p.is_failed = str.empty();
+    return p;
 }
 
 template<typename A>
@@ -61,13 +86,6 @@ Parser<A> operator <=(Parser<A> p, A &var)
     }
     return p;
 }
-
-/*(Parser<char>(std::string&, int)) &parse_char(char c)
-{
-    return [=](std::string& s, int pos)
-    {
-    };
-}*/
 
 typedef struct parse_char
 {
@@ -102,7 +120,7 @@ std::function<Parser<char>(std::string&, int)> pchar(std::string c)
 {
     return std::function<Parser<char>(std::string&, int)>(parse_char(c));
 }
-template<typename T>
+template<class T>
 struct change_val
 {
     T v;
@@ -122,68 +140,78 @@ std::function<Parser<T>(std::string&, int)> pchange(T v)
     return change_val<T>(v);
 }
 
-Parser<int> prod(std::string& s, int pos)
+Parser<Stack> prod(std::string& s, int pos)
 {
-    std::function<Parser<int>(std::string&, int)> pnum = num;
-    std::function<Parser<int>(std::string&, int)> pformula = formula;
-    int prod = 0;
-    auto p = ((pchar("(")(s, pos) >= pformula <= prod >= pchar(")")) >= pchange(prod)) | ((pnum(s, pos) <= prod));
-    auto op = p >= pchar("*/");
-    while (!op.is_failed)
+    std::cerr << "prod(" << s << ", " << pos << ")" << std::endl;
+    Stack tmp;
+    auto p = 
+             (pchar("(")(s, pos) >= formula <= tmp >= pchar(")") >= pchange(tmp)) |
+             num(s, pos)  | 
+             name(s, pos);
+    if (!p.is_failed)
     {
-        int mult = 0;
-        p = ((op >= pchar("(") >= pformula) <= mult >= pchar(")") >= pchange(mult)) | (op >= pnum <= mult);
-        if (op.data == '*')
+        std::cerr << "Tmp";
+        for (auto &i : p.data) 
         {
-            prod *= mult;
+            std::cerr << " " << i;
         }
-        else
-        {
-            prod /= mult;
-        }
-        op = p >= pchar("*/");
+        std::cerr << std::endl;
     }
-
-    auto ret = Parser<int>(s, prod, p.to_parse);
-    ret.is_failed = p.is_failed;
-    return ret;
-}
-
-Parser<int> formula(std::string& s, int pos)
-{
-    std::function<Parser<int>(std::string&, int)> pnum = prod;
-    auto p = prod(s, pos);
-    int summ = p.data;
-    auto op = p >= pchar("+-");
-    while (!op.is_failed)
-    {
-        p = p >= pchar("+-") >= pnum;
-        if (op.data == '+')
-        {
-            summ += p.data;
-        }
-        else
-        {
-            summ -= p.data;
-        }
-        op = p >= pchar("+-");
-    }
-    p.data = summ;
     return p;
 }
 
-int main(int argc, char const* argv[])
+Parser<Stack> summ(std::string& s, int pos)
 {
-    std::string s;
-    std::cin >> s;
-    //std::function<Parser<int>(int, std::string&, int)> pars = num;
-    //Parser<int> p = Parser<int>(s, 0, 0) >>= (std::function<Parser<int>(int, std::string, int)>)num<int>;
-    //Parser<int> p = Parser<int>(s, 0, 0) >>= pars;
-    std::function<Parser<char>(std::string&, int)> psum = pchar("+-");
-    std::function<Parser<int>(std::string&, int)> pnum = num;
+    std::cerr << "summ(" << s << ", " << pos << ")" << std::endl;
+    //std::function<Parser<Stack&>(std::string&, int)> pprod = prod;
+    Stack left, right;
+    char op = ' ';
+    auto p = (prod(s, pos) <= left >= pchar("*/%") <= op >= summ <= right) |
+             (prod(s, pos) <= left);
+    p.data = left;
+    p.data.insert(p.data.end(), right.begin(), right.end());
+    if (op != ' ')
+    {
+        std::string str = "";
+        str.push_back(op);
+        p.data.push_back(str);
+    }
+    if (!p.is_failed)
+    {
+        std::cerr << "Tmp ";
+        for (auto &i : p.data) 
+        {
+            std::cerr << i << " ";
+        }
+        std::cerr << std::endl;
+    }
+    return p;
+}
 
-    auto p = formula(s, 0);
-    std::cout << p.data << std::endl;
-
-    return 0;
+Parser<Stack> formula(std::string& s, int pos)
+{
+    std::cerr << "formula(" << s << ", " << pos << ")" << std::endl;
+    //std::function<Parser<Stack&>(std::string&, int)> pprod = prod;
+    Stack left, right;
+    char op = ' ';
+    auto p = (summ(s, pos) <= left >= pchar("+-") <= op >= formula <= right) |
+             (summ(s, pos) <= left);
+    p.data = left;
+    p.data.insert(p.data.end(), right.begin(), right.end());
+    if (op != ' ')
+    {
+        std::string str = "";
+        str.push_back(op);
+        p.data.push_back(str);
+    }
+    if (!p.is_failed)
+    {
+        std::cerr << "Tmp ";
+        for (auto &i : p.data) 
+        {
+            std::cerr << i << " ";
+        }
+        std::cerr << std::endl;
+    }
+    return p;
 }
