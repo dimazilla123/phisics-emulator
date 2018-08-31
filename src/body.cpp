@@ -65,7 +65,7 @@ double body::getParameter (string name)
     return (this->parameters.find (name))->second;
 }
 
-void body::applicateForce (body other, vector2d (*force)(body, body))
+void body::applicateForce (body &other, vector2d (*force)(body, body))
 {
     this->forceSum += (*force)(*this, other);
 }

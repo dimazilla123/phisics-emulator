@@ -15,8 +15,8 @@ class body
         vector2d position;
         vector2d velocity;
         vector2d forceSum;
-        multimap<string,double> parameters;
     public:
+        map<string,double> parameters;
         body (double massN);
         void setPosition (vector2d newPos);
         vector2d getPosition ();
@@ -28,7 +28,7 @@ class body
         double getMass ();
         void setMass (double m);
         void move (double dt);
-        void applicateForce (body other, vector2d (*force)(body, body));
+        void applicateForce (body &other, vector2d (*force)(body, body));
 };
 
 #endif
