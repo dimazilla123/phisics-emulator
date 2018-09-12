@@ -1,21 +1,24 @@
 # Phisics Emulator
 
-Данная программа должна позвольять (теоретически) эмулировать
-работу ньютоновский механики и иметь легко модифицируемый интерфейс
+This program have to emulate Newton and Galleleo mechanics with high
+customable interface
 
-## Цели
-1. Облегчить добавление новых параметров к любому телу (электроотрицательность,
-ядерность, потусторонность, etc)
-2. Облегчить добавление новых сил (гравитация, закон Кулона, магнетизм)
-3. Выводить происходящее в красивом графическом интерфейсе
+## Building
+```bash
+$ qmake
+$ make
+```
 
-## Реализованно
-1. Код, поддающийся модификациям
-2. Вывод проискодящего спомощью Qt
-3. Скроллинг
-4. Добавление тел
-3. Переход со сборки на чистом make к qmake
+## TODO
+1. Easy way of adding new parameters to body
+2. Easy way of adding new forces
+3. Awesome interface
 
-## В процессе
-1. Кастомизация параметров тела
-2. Добавление пользовательских сил
+## Done
+1. Basic Qt interface
+2. Scrolling
+3. Body adding
+
+## In progress
+1. Custom parameters
+2. User forces
