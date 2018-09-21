@@ -22,9 +22,10 @@ std::vector<token> prepare(Stack& expr, body b1, body b2)
         {
             std::string name;
             std::istringstream inp(s);
-            int n = 0;
+            int n = 1;
             std::getline(inp, name, '_');
             inp >> n;
+            n--;
 
             auto found = bodies[n].parameters.find(name);
             if (found != bodies[n].parameters.end())
