@@ -48,6 +48,14 @@ vector2d vector2d::operator *(double num)
     vector2d tmp (this->x * num, this->y * num);
     return tmp;
 }
+double vector2d::operator *(vector2d v)
+{
+    return x * v.getX() + y * v.getY();
+}
+double vector2d::operator %(vector2d v)
+{
+    return x * v.getY() - y * v.getX();
+}
 vector2d vector2d::operator /(double num)
 {
     vector2d tmp (this->x / num, this->y / num);

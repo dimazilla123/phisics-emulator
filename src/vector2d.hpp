@@ -19,6 +19,8 @@ class vector2d
         vector2d operator -(vector2d other);
         void operator -=(vector2d other);
         vector2d operator *(double num);
+        double operator *(vector2d num);
+        double operator %(vector2d num);
         void operator *=(double num);
         vector2d operator /(double num);
         void operator /=(double num);
