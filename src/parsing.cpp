@@ -5,13 +5,11 @@
 
 template<typename A, typename B>
 Parser<B> operator >=(Parser<A> p, std::function<Parser<B>(std::string&, int)> (f))
-//Parser<B> operator >=(Parser<A> p, Parser<B> (&f)(std::string&, int))
 {
     if (!p.is_failed)
     {
         return f(p.str, p.to_parse);
     }
-    //std::cerr << "Error at " << p.to_parse << std::endl;
     auto r = Parser<B>(p.str, p.to_parse);
     r.is_failed = true;
     return r;
@@ -24,7 +22,6 @@ Parser<B> operator >=(Parser<A> p, Parser<B> (&f)(std::string&, int))
     {
         return f(p.str, p.to_parse);
     }
-    //std::cerr << "Error at " << p.to_parse << std::endl;
     auto r = Parser<B>(p.str, p.to_parse);
     r.is_failed = true;
     return r;
@@ -87,7 +84,7 @@ Parser<A> operator <=(Parser<A> p, A &var)
     return p;
 }
 
-typedef struct parse_char
+struct parse_char
 {
     std::string c;
     parse_char()
@@ -114,7 +111,7 @@ typedef struct parse_char
         }
         return ret;
     }
-} parse_char;
+};
 
 std::function<Parser<char>(std::string&, int)> pchar(std::string c)
 {
@@ -194,9 +191,8 @@ Parser<Stack> formula(std::string& s, int pos)
     //std::function<Parser<Stack&>(std::string&, int)> pprod = prod;
     Stack left, right;
     char op = ' ';
-    auto p = (summ(s, pos) <= left >= pchar("+-") <= op >= formula <= right) |
+    auto p = (summ(s, pos) <= left >= pchar("+-") <= op >= formula <= right >= pchange(left)) |
              (summ(s, pos) <= left);
-    p.data = left;
     p.data.insert(p.data.end(), right.begin(), right.end());
     if (op != ' ')
     {
