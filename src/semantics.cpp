@@ -1,5 +1,6 @@
 #include "semantics.hpp"
 #include <cstdio>
+#include <sstream>
 #include <map>
 #include <vector>
 
@@ -16,13 +17,15 @@ std::vector<token> prepare(Stack& expr, body b1, body b2)
         {
             obj.op = s[0];
             obj.t = op;
-            ret.push_back(obj);
         }
         else
         {
-            char name[100];
-            int n;
-            std::sscanf(s.data(), "%s_%d", name, &n);
+            std::string name;
+            std::istringstream inp(s);
+            int n = 0;
+            std::getline(inp, name, '_');
+            inp >> n;
+
             auto found = bodies[n].parameters.find(name);
             if (found != bodies[n].parameters.end())
             {
@@ -39,6 +42,11 @@ std::vector<token> prepare(Stack& expr, body b1, body b2)
                 else if (name[0] == 'r')
                 {
                     obj.v = bodies[n].getPosition();
+                }
+                else
+                {
+                    obj.t = num;
+                    obj.n = std::atoi(s.data());
                 }
             }
         }
@@ -114,5 +122,5 @@ token calc(Stack& expr, body b1, body b2)
             st.push_back(r);
         }
     }
-    return data[0];
+    return st[0];
 }
