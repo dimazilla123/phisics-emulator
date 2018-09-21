@@ -120,6 +120,18 @@ token calc(Stack& expr, body b1, body b2)
                     }
                 }
             }
+            else
+            {
+                r.t = vec;
+                if (op1.t == vec)
+                {
+                    std::swap(op1, op2);
+                }
+                if (t.op == '*')
+                {
+                    r.v = op2.v * op1.n;
+                }
+            }
             st.push_back(r);
         }
     }
