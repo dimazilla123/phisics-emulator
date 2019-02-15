@@ -6,8 +6,6 @@
 #include "body.hpp"
 #include <vector>
 
-typedef vector2d (*forceFunction)(body, body);
-
 #define READABLE_UNIVERSE_PRINTING_MODE 0
 #define EXPORT_UNIVERSE_PRINTING_MODE 1
 

@@ -5,7 +5,10 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <functional>
 
+class body;
+using forceFunction = std::function<vector2d(const body&, const body&)>;
 using namespace std;
 
 class body
@@ -28,7 +31,8 @@ class body
         double getMass ();
         void setMass (double m);
         void move (double dt);
-        void applicateForce (body &other, vector2d (*force)(body, body));
+        void applicateForce (body &other, forceFunction);
+
 };
 
 #endif
