@@ -23,7 +23,7 @@ void body::setPosition (vector2d newPos)
     this->position = newPos;
 }
 
-vector2d body::getPosition ()
+vector2d body::getPosition () const
 {
     return this->position;
 }
@@ -33,12 +33,12 @@ void body::setVelocity (vector2d newVelocity)
     this->velocity = newVelocity;
 }
 
-vector2d body::getVelocity ()
+vector2d body::getVelocity () const
 {
     return this->velocity;
 }
 
-double body::getMass ()
+double body::getMass () const
 {
     return this->mass;
 }
@@ -60,7 +60,7 @@ void body::setParameter (string name, double value)
     this->parameters.insert (pair<string, double>(name, value));
 }
 
-double body::getParameter (string name)
+double body::getParameter (string name) const
 {
     return (this->parameters.find (name))->second;
 }

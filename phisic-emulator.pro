@@ -25,10 +25,13 @@ HEADERS += src/body.hpp \
            src/interface.hpp \
            src/universe.hpp \
            src/vector2d.hpp \
-           src/canvas.hpp
+           src/canvas.hpp \
+	   src/semantics.hpp
 SOURCES += src/body.cpp \
            src/interface.cpp \
            src/main.cpp \
            src/universe.cpp \
            src/vector2d.cpp \
-           src/canvas.cpp
+           src/canvas.cpp \
+	   src/semantics.cpp \
+           src/parsing.cpp

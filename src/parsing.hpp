@@ -36,18 +36,6 @@ struct Parser
     }
 };
 
-std::function<Parser<char>(std::string&, int)> pchar(std::string c);
-template<typename A, typename B>
-Parser<B> operator >=(Parser<A>, std::function<Parser<B>(std::string&, int)>);
-template<typename A, typename B>
-Parser<B> operator >=(Parser<A>, Parser<B>(&f)(std::string&, int));
-
-template<typename A>
-Parser<A> operator <=(Parser<A>, A&);
-
-template<typename A, typename B>
-Parser<B> operator >>(Parser<A>, Parser<B>);
-
 using Stack = std::vector<std::string>;
 
 Parser<Stack> formula(std::string& s, int pos);

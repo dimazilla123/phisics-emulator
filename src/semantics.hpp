@@ -4,6 +4,7 @@
 #include "parsing.hpp"
 #include "body.hpp"
 #include "vector2d.hpp"
+#include <functional>
 
 enum type
 {
@@ -19,6 +20,9 @@ struct token
     vector2d v;
 };
 
-token calc(Stack& expr, body a, body b);
+token calc(const Stack& expr, const body& a, const body& b);
 std::vector<token> prepare(Stack& expr, body b1, body b2);
+
+forceFunction createFuncFromCalc(Stack& expr);
+
 #endif

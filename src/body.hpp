@@ -22,13 +22,13 @@ class body
         map<string,double> parameters;
         body (double massN);
         void setPosition (vector2d newPos);
-        vector2d getPosition ();
+        vector2d getPosition () const;
         void setVelocity (vector2d newVelocity);
-        vector2d getVelocity ();
+        vector2d getVelocity () const;
         body (double massN, vector<string> parametersNames);
         void setParameter (string name, double value);
-        double getParameter (string name);
-        double getMass ();
+        double getParameter (string name) const;
+        double getMass () const;
         void setMass (double m);
         void move (double dt);
         void applicateForce (body &other, forceFunction);

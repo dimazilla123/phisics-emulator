@@ -6,7 +6,7 @@
 
 using std::pair;
 
-std::vector<token> prepare(Stack& expr, body b1, body b2)
+std::vector<token> prepare(const Stack& expr, body b1, body b2)
 {
     body bodies[] = {b1, b2};
     std::vector<token> ret;
@@ -56,7 +56,7 @@ std::vector<token> prepare(Stack& expr, body b1, body b2)
     return ret;
 }
 
-token calc(Stack& expr, body b1, body b2)
+token calc(const Stack& expr, const body& b1, const body& b2)
 {
     vector2d r;
     std::vector<token> st;
@@ -136,4 +136,16 @@ token calc(Stack& expr, body b1, body b2)
         }
     }
     return st[0];
+}
+
+forceFunction createFuncFromCalc(Stack& expr)
+{
+    return [expr](const body& a, const body& b)
+    {
+        auto res = calc(expr, a, b);
+        if (res.t == vec)
+            return res.v;
+        else
+            return vector2d();
+    };
 }
