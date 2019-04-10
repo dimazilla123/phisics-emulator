@@ -6,6 +6,10 @@
 #include <QVector>
 #include <iostream>
 
+/*
+ * Custom widget for drawing
+ */
+
 class Canvas : public QWidget
 {
     Q_OBJECT

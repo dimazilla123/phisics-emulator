@@ -67,5 +67,6 @@ double body::getParameter (string name) const
 
 void body::applicateForce (body &other, forceFunction f)
 {
+    fprintf(stderr, "force val: x = %f, y = %f\n", f(*this, other).getX(), f(*this, other).getY());
     this->forceSum += f(*this, other);
 }

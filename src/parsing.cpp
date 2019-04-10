@@ -56,7 +56,7 @@ Parser<Lexem> get_lexem(Parser<Lexem> prev)
     {
         ret.is_failed = false;
         ret.data.type = LexemType::NAME;
-        while (('a' <= s[pos] && s[pos] <= 'z') || s[pos] == '_')
+        while (('a' <= s[pos] && s[pos] <= 'z') || s[pos] == '_' || (('0' <= s[pos] && s[pos] <= '9') || s[pos] == '.'))
         {
             ret.data.s += s[pos];
             ++pos;

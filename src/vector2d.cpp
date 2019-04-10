@@ -1,5 +1,5 @@
 #include "vector2d.hpp"
-#include <math.h>
+#include <cmath>
 
 vector2d::vector2d ()
 {

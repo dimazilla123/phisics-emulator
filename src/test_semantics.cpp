@@ -19,5 +19,9 @@ int main(int argc, char const* argv[])
     {
         std::cout << prep.v.getX() << " " << prep.v.getY() << std::endl;
     }
+    auto f = createFuncFromCalc(p.data);
+    vector2d res = f(b1, b2);
+    std::cout << res.getX() << " " << res.getY() << "\n";
+
     return 0;
 }

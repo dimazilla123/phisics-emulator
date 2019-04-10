@@ -6,6 +6,14 @@
 
 using std::pair;
 
+bool is_num(const std::string& s)
+{
+    for (auto c : s)
+        if (!(('0' <= c && c <= '9') || c == '.'))
+            return false;
+    return true;
+}
+
 std::vector<token> prepare(const Stack& expr, body b1, body b2)
 {
     body bodies[] = {b1, b2};
@@ -17,6 +25,11 @@ std::vector<token> prepare(const Stack& expr, body b1, body b2)
         {
             obj.op = s[0];
             obj.t = op;
+        }
+        else if (is_num(s))
+        {
+            obj.n = std::stod(s);
+            obj.t = num;
         }
         else
         {
@@ -138,14 +151,35 @@ token calc(const Stack& expr, const body& b1, const body& b2)
     return st[0];
 }
 
-forceFunction createFuncFromCalc(Stack& expr)
+struct force_str
 {
-    return [expr](const body& a, const body& b)
+    Stack expr;
+    force_str(const Stack& e) : expr(e) {}
+    vector2d operator()(const body& a, const body& b)
     {
         auto res = calc(expr, a, b);
         if (res.t == vec)
             return res.v;
         else
+        {
+            fprintf(stderr, "Error!\n");
             return vector2d();
+        }
+    }
+};
+
+forceFunction createFuncFromCalc(Stack& expr)
+{
+    return force_str(expr);
+    return [expr](const body& a, const body& b)
+    {
+        static auto res = calc(expr, a, b);
+        if (res.t == vec)
+            return res.v;
+        else
+        {
+            fprintf(stderr, "Error!\n");
+            return vector2d();
+        }
     };
 }
