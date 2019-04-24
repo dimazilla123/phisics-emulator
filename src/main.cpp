@@ -46,12 +46,14 @@ int main(int argc, char** argv)
     std::ifstream force_file(argv[1]);
 
     universe u;
+    /*
     body b1(1), b2(1);
     b1.setPosition(vector2d(100, 100));
     b2.setPosition(vector2d(200, 100));
     u.addBody(&b1);
     u.addBody(&b2);
-    //u.addForce (&goock_force);
+    u.addForce (&goock_force);
+    */
     std::string force_line;
     while (std::getline(force_file, force_line)) 
     {
