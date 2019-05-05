@@ -33,30 +33,30 @@ double vector2d::distance ()
 {
     return std::sqrt ((this->x) * (this->x) + (this->y) * (this->y));
 }
-vector2d vector2d::operator +(vector2d other)
+vector2d vector2d::operator +(vector2d other) const
 {
     vector2d tmp (this->x + other.getX (), this->y + other.getY ());
     return tmp;
 }
-vector2d vector2d::operator -(vector2d other)
+vector2d vector2d::operator -(vector2d other) const
 {
     vector2d tmp (this->x - other.getX (), this->y - other.getY ());
     return tmp;
 }
-vector2d vector2d::operator *(double num)
+vector2d vector2d::operator *(double num) const
 {
     vector2d tmp (this->x * num, this->y * num);
     return tmp;
 }
-double vector2d::operator *(vector2d v)
+double vector2d::operator *(vector2d v) const
 {
     return x * v.getX() + y * v.getY();
 }
-double vector2d::operator %(vector2d v)
+double vector2d::operator %(vector2d v) const
 {
     return x * v.getY() - y * v.getX();
 }
-vector2d vector2d::operator /(double num)
+vector2d vector2d::operator /(double num) const
 {
     vector2d tmp (this->x / num, this->y / num);
     return tmp;
@@ -82,4 +82,9 @@ void vector2d::operator /=(double num)
 vector2d vector2d::direction ()
 {
     return *this / this->distance ();
+}
+
+vector2d operator*(double k, const vector2d& v)
+{
+    return v * k;
 }

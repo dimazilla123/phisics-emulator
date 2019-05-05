@@ -25,7 +25,7 @@ vector2d goock_force (const body& a, const body& b)
 
 vector2d gravitation(const body& a, const body& b)
 {
-    double G = 1;
+    double G = 40000;
     vector2d aPos = a.getPosition();
     vector2d bPos = b.getPosition();
     double m1 = a.getMass(), m2 = b.getMass();
@@ -37,15 +37,29 @@ int main(int argc, char** argv)
 {
     int wight = 600, hight = 400;
     double time = 0.001, speed = 1;
+    universe u;
+    //u.addForce(gravitation);
+    //u.addForce(goock_force);
 
     if (argc < 2) 
     {
         fprintf(stderr, "Usage: %s [FORCELIST]\n", argv[0]);
-        return 0;
+        fprintf(stderr, "No force file\n");
+        std::ifstream force_file(argv[1]);
+        std::string force_line;
+        while (std::getline(force_file, force_line)) 
+        {
+            std::cout << force_line << "\n";
+            Parser<Stack> form = formula(force_line, 0);
+            if (form.is_failed) 
+            {
+                fprintf(stderr, "Cannot parse %s", force_line.c_str());
+                continue;
+            }
+            u.addForce(createFuncFromCalc(form.data));
+        }
     }
-    std::ifstream force_file(argv[1]);
 
-    universe u;
     /*
     body b1(1), b2(1);
     b1.setPosition(vector2d(100, 100));
@@ -54,18 +68,7 @@ int main(int argc, char** argv)
     u.addBody(&b2);
     u.addForce (&goock_force);
     */
-    std::string force_line;
-    while (std::getline(force_file, force_line)) 
-    {
-        std::cout << force_line << "\n";
-        Parser<Stack> form = formula(force_line, 0);
-        if (form.is_failed) 
-        {
-            fprintf(stderr, "Cannot parse %s", force_line.c_str());
-            continue;
-        }
-        u.addForce(createFuncFromCalc(form.data));
-    }
+    
 
     QApplication app(argc, argv);
 

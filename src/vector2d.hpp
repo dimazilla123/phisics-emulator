@@ -14,15 +14,17 @@ class vector2d
         void setY (double newY);
         double distance ();
         vector2d direction ();
-        vector2d operator +(vector2d other);
+        vector2d operator +(vector2d other) const;
         void operator +=(vector2d other);
-        vector2d operator -(vector2d other);
+        vector2d operator -(vector2d other) const;
         void operator -=(vector2d other);
-        vector2d operator *(double num);
-        double operator *(vector2d num);
-        double operator %(vector2d num);
+        vector2d operator *(double num) const;
+        double operator *(vector2d num) const;
+        double operator %(vector2d num) const;
         void operator *=(double num);
-        vector2d operator /(double num);
+        vector2d operator /(double num) const;
         void operator /=(double num);
 };
+
+vector2d operator*(double k, const vector2d& v);
 #endif
