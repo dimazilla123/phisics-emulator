@@ -11,7 +11,7 @@ enum TokenType
     NUM,
     VEC,
     OP,
-    ABS
+    FUNCTION
 };
 struct token
 {
@@ -19,6 +19,7 @@ struct token
     double n;
     char op;
     vector2d v;
+    std::string func;
 };
 
 token calc(const Stack& expr, const body& a, const body& b);

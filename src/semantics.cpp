@@ -1,5 +1,5 @@
 #include "semantics.hpp"
-#include <cstdio>
+#include <iostream>
 #include <sstream>
 #include <map>
 #include <vector>
@@ -33,7 +33,8 @@ std::vector<token> prepare(const Stack& expr, body b1, body b2)
         }
         else if (s == "abs")
         {
-            obj.t = TokenType::ABS;
+            obj.t = TokenType::FUNCTION;
+            obj.func = s;
         }
         else
         {
@@ -73,6 +74,21 @@ std::vector<token> prepare(const Stack& expr, body b1, body b2)
     return ret;
 }
 
+void print_token_st(const std::vector<token>& v)
+{
+    for (auto t : v) {
+        if (t.t == TokenType::NUM)
+            std::cerr << t.n << " ";
+        else if (t.t == TokenType::OP)
+            std::cerr << t.op << " ";
+        else if (t.t == TokenType::VEC)
+            std::cerr << "(" << t.v.getX() << " " << t.v.getY() << ") ";
+        else if (t.t == TokenType::FUNCTION)
+            std::cerr << t.func << " ";
+    }
+    std::cerr << "\n";
+}
+
 token calc(const Stack& expr, const body& b1, const body& b2)
 {
     vector2d r;
@@ -80,9 +96,21 @@ token calc(const Stack& expr, const body& b1, const body& b2)
     auto data = prepare(expr, b1, b2);
     for (auto t : data) 
     {
-        if (t.t != TokenType::OP)
+        if (t.t == TokenType::VEC || t.t == TokenType::NUM)
         {
             st.push_back(t);
+        }
+        else if (t.t == TokenType::FUNCTION)
+        {
+            token operand = st.back();
+            st.pop_back();
+            token r;
+            r.t = TokenType::NUM;
+            if (operand.t == TokenType::NUM)
+                r.n = std::abs(operand.n);
+            else if (operand.t == TokenType::VEC)
+                r.n = operand.v.distance();
+            st.push_back(r);
         }
         else
         {
@@ -148,9 +176,14 @@ token calc(const Stack& expr, const body& b1, const body& b2)
                 {
                     r.v = op2.v * op1.n;
                 }
+                else if (t.op == '/')
+                {
+                    r.v = op2.v / op1.n;
+                }
             }
             st.push_back(r);
         }
+        //print_token_st(st);
     }
     return st[0];
 }

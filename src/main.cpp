@@ -45,6 +45,10 @@ int main(int argc, char** argv)
     {
         fprintf(stderr, "Usage: %s [FORCELIST]\n", argv[0]);
         fprintf(stderr, "No force file\n");
+        
+    }
+    else
+    {
         std::ifstream force_file(argv[1]);
         std::string force_line;
         while (std::getline(force_file, force_line)) 

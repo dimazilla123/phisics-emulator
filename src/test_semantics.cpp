@@ -11,7 +11,7 @@ int main(int argc, char const* argv[])
     b2.setPosition({3, 4});
 
     auto prep = calc(p.data, b1, b2);
-    if (prep.t == num)
+    if (prep.t == TokenType::NUM)
     {
         std::cout << prep.n << std::endl;
     }
