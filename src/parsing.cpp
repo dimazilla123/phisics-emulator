@@ -12,7 +12,7 @@ enum LexemType
     NUMBER,
     NAME,
     OPERATION,
-    ABS,
+    FUNCTION,
     BRAKET,
     NONE
 };
@@ -63,7 +63,7 @@ Parser<Lexem> get_lexem(Parser<Lexem> prev)
             ++pos;
         }
         if (ret.data.s == "abs")
-            ret.data.type = LexemType::ABS;
+            ret.data.type = LexemType::FUNCTION;
     }
     return ret;
 }
@@ -93,10 +93,17 @@ Parser<Stack> formula(std::string& s, int pos)
                 }
                 st.pop_back();
             }
-        } else if (lex.data.type == LexemType::OPERATION) 
+        }
+        else if (lex.data.type == LexemType::FUNCTION)
         {
-            auto get_prior = [](const std::string& s) { return s == "+" || s == "-" ? 0 : 1; };
-            while (!st.empty() && st.back().type == LexemType::OPERATION && get_prior(st.back().s) > get_prior(lex.data.s))
+            st.push_back(lex.data);
+        }
+        else if (lex.data.type == LexemType::OPERATION)
+        {
+            auto get_prior = [](const std::string& s) {
+                return s == "+" || s == "-" ? 0 : 1;
+            };
+            while (!st.empty() && ((st.back().type == LexemType::OPERATION && get_prior(st.back().s)) || st.back().type == LexemType::FUNCTION) > get_prior(lex.data.s))
             {
                 ret.data.push_back(st.back().s);
                 st.pop_back();
