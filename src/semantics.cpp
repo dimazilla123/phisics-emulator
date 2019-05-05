@@ -24,12 +24,16 @@ std::vector<token> prepare(const Stack& expr, body b1, body b2)
         if (s == "+" || s == "-" || s == "*" || s == "/" || s == "%")
         {
             obj.op = s[0];
-            obj.t = op;
+            obj.t = TokenType::OP;
         }
         else if (is_num(s))
         {
             obj.n = std::stod(s);
-            obj.t = num;
+            obj.t = TokenType::NUM;
+        }
+        else if (s == "abs")
+        {
+            obj.t = TokenType::ABS;
         }
         else
         {
@@ -44,11 +48,11 @@ std::vector<token> prepare(const Stack& expr, body b1, body b2)
             if (found != bodies[n].parameters.end())
             {
                 obj.n = (*found).second;
-                obj.t = num;
+                obj.t = TokenType::NUM;
             }
             else
             {
-                obj.t = vec;
+                obj.t = TokenType::VEC;
                 if (name[0] == 'v')
                 {
                     obj.v = bodies[n].getVelocity();
@@ -59,7 +63,7 @@ std::vector<token> prepare(const Stack& expr, body b1, body b2)
                 }
                 else
                 {
-                    obj.t = num;
+                    obj.t = TokenType::NUM;
                     obj.n = std::atoi(s.data());
                 }
             }
@@ -76,7 +80,7 @@ token calc(const Stack& expr, const body& b1, const body& b2)
     auto data = prepare(expr, b1, b2);
     for (auto t : data) 
     {
-        if (t.t != op)
+        if (t.t != TokenType::OP)
         {
             st.push_back(t);
         }
@@ -89,9 +93,9 @@ token calc(const Stack& expr, const body& b1, const body& b2)
             token r;
             if (op2.t == op1.t)
             {
-                if (op1.t == num)
+                if (op1.t == TokenType::NUM)
                 {
-                    r.t = num;
+                    r.t = TokenType::NUM;
                     if (t.op == '+')
                     {
                         r.n = op1.n + op2.n;
@@ -109,34 +113,34 @@ token calc(const Stack& expr, const body& b1, const body& b2)
                         r.n = op1.n / op2.n;
                     }
                 }
-                if (op1.t == vec)
+                if (op1.t == TokenType::VEC)
                 {
                     if (t.op == '+')
                     {
-                        r.t = vec;
+                        r.t = TokenType::VEC;
                         r.v = op1.v + op2.v;
                     }
                     if (t.op == '-')
                     {
-                        r.t = vec;
+                        r.t = TokenType::VEC;
                         r.v = op1.v - op2.v;
                     }
                     if (t.op == '*')
                     {
-                        r.t = num;
+                        r.t = TokenType::NUM;
                         r.n = op2.v * op2.v;
                     }
                     if (t.op == '%')
                     {
-                        r.t = num;
+                        r.t = TokenType::NUM;
                         r.n = op1.v % op2.v;
                     }
                 }
             }
             else
             {
-                r.t = vec;
-                if (op1.t == vec)
+                r.t = TokenType::VEC;
+                if (op1.t == TokenType::VEC)
                 {
                     std::swap(op1, op2);
                 }
@@ -158,7 +162,7 @@ struct force_str
     vector2d operator()(const body& a, const body& b)
     {
         auto res = calc(expr, a, b);
-        if (res.t == vec)
+        if (res.t == TokenType::VEC)
             return res.v;
         else
         {
@@ -174,7 +178,7 @@ forceFunction createFuncFromCalc(Stack& expr)
     return [expr](const body& a, const body& b)
     {
         static auto res = calc(expr, a, b);
-        if (res.t == vec)
+        if (res.t == TokenType::VEC)
             return res.v;
         else
         {

@@ -6,15 +6,16 @@
 #include "vector2d.hpp"
 #include <functional>
 
-enum type
+enum TokenType
 {
-    num,
-    vec,
-    op
+    NUM,
+    VEC,
+    OP,
+    ABS
 };
 struct token
 {
-    type t;
+    TokenType t;
     double n;
     char op;
     vector2d v;

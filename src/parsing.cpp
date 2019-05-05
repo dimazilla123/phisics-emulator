@@ -12,6 +12,7 @@ enum LexemType
     NUMBER,
     NAME,
     OPERATION,
+    ABS,
     BRAKET,
     NONE
 };
@@ -61,6 +62,8 @@ Parser<Lexem> get_lexem(Parser<Lexem> prev)
             ret.data.s += s[pos];
             ++pos;
         }
+        if (ret.data.s == "abs")
+            ret.data.type = LexemType::ABS;
     }
     return ret;
 }
