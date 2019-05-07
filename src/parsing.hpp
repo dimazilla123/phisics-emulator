@@ -38,6 +38,6 @@ struct Parser
 
 using Stack = std::vector<std::string>;
 
-Parser<Stack> formula(std::string& s, int pos);
+Parser<Stack> formula(std::string s, int pos);
 #endif
 

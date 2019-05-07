@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <cassert>
+#include <algorithm>
 
 /*! \enum LexemType
  *
@@ -68,10 +69,12 @@ Parser<Lexem> get_lexem(Parser<Lexem> prev)
     return ret;
 }
 
-Parser<Stack> formula(std::string& s, int pos)
+Parser<Stack> formula(std::string s, int pos)
 {
     std::cerr << "formula(" << s << ", " << pos << ")" << std::endl;
     Parser<Stack> ret(s, 0);
+
+    s.erase(std::remove(s.begin(), s.end(), ' '), s.end());
 
     std::vector<Lexem> st;
     Parser<Lexem> lex = get_lexem(Parser<Lexem>(s, {NONE, ""}, 0));
