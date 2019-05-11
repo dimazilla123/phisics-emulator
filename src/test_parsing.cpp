@@ -4,11 +4,12 @@
 int main(int argc, char const* argv[])
 {
     std::string s;
-    std::cin >> s;
+    std::getline(std::cin, s);
     auto p = formula(s, 0);
     for (auto i : p.data) 
     {
-        std::cout << i << std::endl;
+        std::cout << i << " ";
     }
+    std::cout << "\n";
     return 0;
 }

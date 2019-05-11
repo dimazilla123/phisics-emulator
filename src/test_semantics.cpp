@@ -4,11 +4,11 @@
 int main(int argc, char const* argv[])
 {
     std::string s;
-    std::cin >> s;
+    std::getline(cin, s);
     auto p = formula(s, 0);
     body b1(1), b2(1);
-    b1.setPosition({1, 2});
-    b2.setPosition({3, 4});
+    b1.setPosition({100, 100});
+    b2.setPosition({100, 200});
 
     auto prep = calc(p.data, b1, b2);
     if (prep.t == TokenType::NUM)
