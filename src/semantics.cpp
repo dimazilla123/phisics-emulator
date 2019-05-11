@@ -51,6 +51,11 @@ std::vector<token> prepare(const Stack& expr, body b1, body b2)
                 obj.n = (*found).second;
                 obj.t = TokenType::NUM;
             }
+            else if (name == "m")
+            {
+                obj.n = bodies[n].getMass();
+                obj.t = TokenType::NUM;
+            }
             else
             {
                 obj.t = TokenType::VEC;
