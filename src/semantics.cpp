@@ -3,6 +3,7 @@
 #include <sstream>
 #include <map>
 #include <vector>
+#include <cmath>
 
 using std::pair;
 
@@ -21,7 +22,7 @@ std::vector<token> prepare(const Stack& expr, body b1, body b2)
     for (auto s : expr) 
     {
         token obj;
-        if (s == "+" || s == "-" || s == "*" || s == "/" || s == "%")
+        if (s == "+" || s == "-" || s == "*" || s == "/" || s == "%" || s == "^")
         {
             obj.op = s[0];
             obj.t = TokenType::OP;
@@ -130,21 +131,15 @@ token calc(const Stack& expr, const body& b1, const body& b2)
                 {
                     r.t = TokenType::NUM;
                     if (t.op == '+')
-                    {
                         r.n = op1.n + op2.n;
-                    }
                     if (t.op == '-')
-                    {
                         r.n = op1.n - op2.n;
-                    }
                     if (t.op == '*')
-                    {
                         r.n = op1.n * op2.n;
-                    }
                     if (t.op == '/')
-                    {
                         r.n = op1.n / op2.n;
-                    }
+                    if (t.op == '^')
+                        r.n = std::pow(op1.n, op2.n);
                 }
                 if (op1.t == TokenType::VEC)
                 {
