@@ -78,7 +78,7 @@ void interface::update_universe ()
         {
             positions.push_back (body_ptr->getPosition ());
         }
-        this->canvas->draw_points (&positions);
+        this->canvas->draw_points(positions);
         positions.erase (positions.begin (), positions.end ());
     }
 }
