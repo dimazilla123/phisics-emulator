@@ -32,7 +32,7 @@ void Canvas::resizeEvent(QResizeEvent *event)
 
 void Canvas::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::MiddleButton) {
+    if (event->button() == Qt::LeftButton) {
         ispanning = true;
         anc_x = event->x();
         anc_y = event->y();
@@ -41,7 +41,7 @@ void Canvas::mousePressEvent(QMouseEvent *event)
 
 void Canvas::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::MiddleButton)
+    if (event->button() == Qt::LeftButton)
         ispanning = false;
 }
 
