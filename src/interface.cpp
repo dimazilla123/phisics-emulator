@@ -9,8 +9,11 @@ interface::interface (universe vers, int w, int h, double s)
     QGroupBox *canvas_box = new QGroupBox ("Universe");
     canvas_box->setMinimumSize (w, h);
 
-    this->canvas = new Canvas (canvas_box);
+    QVBoxLayout *canvas_layout = new QVBoxLayout;
+    this->canvas = new Canvas;
     this->canvas->setMinimumSize (w, h);
+    canvas_layout->addWidget(this->canvas);
+    canvas_box->setLayout(canvas_layout);
     this->body_add_widget = new QGroupBox ("Add bodies");
     this->update_initor = new QCheckBox ("Update");
     this->mass_input = new QLineEdit ("Mass");
