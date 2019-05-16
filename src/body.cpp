@@ -7,14 +7,14 @@ body::body (double m)
     this->mass = m;
 }
 
-body::body(double m, vector<string> params)
+body::body(double m, std::vector<std::string> params)
 {
     this->forceSum = vector2d ();
     this->velocity = vector2d ();
     this->mass = m;
-    for(string name : params)
+    for(std::string name : params)
     {
-        this->parameters.insert (pair<string,double> (name, 0));
+        this->parameters.insert (std::pair<std::string,double> (name, 0));
     }
 }
 
@@ -55,12 +55,12 @@ void body::move (double dt)
     this->position += this->velocity * dt;
 }
 
-void body::setParameter (string name, double value)
+void body::setParameter (std::string name, double value)
 {
-    this->parameters.insert (pair<string, double>(name, value));
+    this->parameters.insert (std::pair<std::string, double>(name, value));
 }
 
-double body::getParameter (string name) const
+double body::getParameter (std::string name) const
 {
     return (this->parameters.find (name))->second;
 }

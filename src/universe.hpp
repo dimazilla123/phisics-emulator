@@ -12,14 +12,14 @@
 class universe
 {
     private:
-        vector<body*> bodies;
-        vector<forceFunction> forces;
+        std::vector<body> bodies;
+        std::vector<forceFunction> forces;
     public:
-        void addBody (body *b);
+        void addBody (const body& b);
         void removeBodyByIndex (int n);
         void addForce (forceFunction force);
         void update (double time);
-        vector<body*> getBodies ();
+        std::vector<body> getBodies ();
         void print (int mode);
         void move_all (vector2d offset);
 };

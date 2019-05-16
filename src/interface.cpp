@@ -83,9 +83,7 @@ void interface::update_canvas()
 {
     std::vector<vector2d> positions;
     for (auto body_ptr : this->u.getBodies ())
-    {
-        positions.push_back (body_ptr->getPosition ());
-    }
+        positions.push_back (body_ptr.getPosition ());
     this->canvas->draw_points(positions);
     positions.erase (positions.begin (), positions.end ());
 }
@@ -100,10 +98,10 @@ void interface::addBody ()
     vel_y = this->vel_y_input->text ().toDouble ();
 
     vector2d pos (pos_x, pos_y), vel (vel_x, vel_y);
-    body* b = new body (mass);
-    b->setPosition (pos);
-    b->setVelocity (vel);
-    this->u.addBody (b);
+    body b(mass);
+    b.setPosition(pos);
+    b.setVelocity(vel);
+    this->u.addBody(b);
 
     this->mass_input->setText ("Mass");
     this->pos_x_input->setText ("X position");
