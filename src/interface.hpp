@@ -37,12 +37,13 @@ class interface : public QWidget
         void move (double x, double y);
         void run (double time);
     public slots:
-        void move_up ();
-        void move_down ();
-        void move_left ();
-        void move_right ();
-        void update_universe ();
-        void addBody ();
+        void move_up();
+        void move_down();
+        void move_left();
+        void move_right();
+        void update_universe();
+        void update_canvas();
+        void addBody();
 };
 
 #endif

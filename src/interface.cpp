@@ -40,22 +40,25 @@ interface::interface (universe vers, int w, int h, double s)
     gloabal_layout->addStretch (1);
     this->setLayout (gloabal_layout);
 
-    QTimer *timer = new QTimer (this);
+    QTimer *update_state_timer = new QTimer(this);
+    QTimer *redraw_timer = new QTimer(this);
 
     QShortcut *up = new QShortcut (QKeySequence (Qt::Key_Up), this);
     QShortcut *down = new QShortcut (QKeySequence (Qt::Key_Down), this);
     QShortcut *left = new QShortcut (QKeySequence (Qt::Key_Left), this);
     QShortcut *right = new QShortcut (QKeySequence (Qt::Key_Right), this);
 
-    connect (timer, SIGNAL(timeout ()), this, SLOT (update_universe ()));
-    connect (add_body_button, SIGNAL(clicked ()), this, SLOT (addBody ()));
+    connect (update_state_timer, SIGNAL(timeout ()), this, SLOT (update_universe ()));
+    connect(redraw_timer, SIGNAL(timeout()), this, SLOT(update_canvas()));
+    connect(add_body_button, SIGNAL(clicked ()), this, SLOT (addBody ()));
 
     connect (up, SIGNAL (activated ()), this, SLOT (move_up ()));
     connect (down, SIGNAL (activated ()), this, SLOT (move_down ()));
     connect (left, SIGNAL (activated ()), this, SLOT (move_left ()));
     connect (right, SIGNAL (activated ()), this, SLOT (move_right ()));
 
-    timer->start (10);
+    update_state_timer->start(10);
+    redraw_timer->start(10);
 }
 
 interface::~interface ()
@@ -73,14 +76,18 @@ void interface::update_universe ()
     if (this->update_initor->checkState () == Qt::Checked)
     {
         this->u.update (this->time);
-        std::vector<vector2d> positions;
-        for (auto body_ptr : this->u.getBodies ())
-        {
-            positions.push_back (body_ptr->getPosition ());
-        }
-        this->canvas->draw_points(positions);
-        positions.erase (positions.begin (), positions.end ());
     }
+}
+
+void interface::update_canvas()
+{
+    std::vector<vector2d> positions;
+    for (auto body_ptr : this->u.getBodies ())
+    {
+        positions.push_back (body_ptr->getPosition ());
+    }
+    this->canvas->draw_points(positions);
+    positions.erase (positions.begin (), positions.end ());
 }
 
 void interface::addBody ()
