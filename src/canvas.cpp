@@ -9,13 +9,11 @@ void Canvas::paintEvent (QPaintEvent *event)
     {
         double x = point.x();
         double y = point.y();
-        if (x1 <= x && x <= x2 && y1 <= y && y <= y2) {
-            x -= x1;
-            y -= y1;
-            x = w * x / (x2 - x1);
-            y = h * y / (y2 - y1);
-            paint.drawEllipse ({x, y}, 10, 10);
-        }
+        x -= x1;
+        y -= y1;
+        x = w * x / (x2 - x1);
+        y = h * y / (y2 - y1);
+        paint.drawEllipse ({x, y}, 10, 10);
     }
 }
 
