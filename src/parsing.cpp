@@ -39,7 +39,8 @@ Parser<Lexem> get_lexem(Parser<Lexem> prev)
         ret.is_failed = false;
         ++ret.to_parse;
     } else if (s[pos] == '+' || s[pos] == '-'
-            || s[pos] == '*' || s[pos] == '/' || s[pos] == '%')
+            || s[pos] == '*' || s[pos] == '/'
+            || s[pos] == '%' || s[pos] == '^')
     {
         ret.data.type = LexemType::OPERATION;
         ret.data.s = s[pos];
@@ -106,7 +107,12 @@ Parser<Stack> formula(std::string s, int pos)
             auto get_prior = [](const std::string& s) {
                 return s == "+" || s == "-" ? 0 : 1;
             };
-            while (!st.empty() && ((st.back().type == LexemType::OPERATION && get_prior(st.back().s)) || st.back().type == LexemType::FUNCTION) > get_prior(lex.data.s))
+            auto is_left = [](const std::string& s) {
+                return s != "^";
+            };
+            while (!st.empty() && st.back().type == LexemType::OPERATION 
+                                && ((is_left(lex.data.s) && get_prior(lex.data.s) <= get_prior(st.back().s)) ||
+                                   (!is_left(lex.data.s) && get_prior(lex.data.s) < get_prior(st.back().s))))
             {
                 ret.data.push_back(st.back().s);
                 st.pop_back();
