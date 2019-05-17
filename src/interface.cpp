@@ -11,12 +11,10 @@ interface::interface (universe vers, int w, int h, double s)
 
     QVBoxLayout *canvas_layout = new QVBoxLayout;
     bar = new QMenuBar;
-    QMenu* save_menu = new QMenu;
-    save_menu->addAction("Save");
-    QMenu* load_menu = new QMenu;
-    load_menu->addAction("Load");
-    bar->addMenu(save_menu);
-    bar->addMenu(load_menu);
+    QMenu* file_menu = new QMenu;
+    file_menu->addAction(tr("Save"));
+    file_menu->addAction(tr("Load"));
+    bar->addMenu(file_menu);
     canvas = new Canvas;
     canvas->setMinimumSize (w, h);
     canvas_layout->addWidget(canvas);

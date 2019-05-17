@@ -1,4 +1,5 @@
 #include "canvas.hpp"
+#include <cmath>
 
 void Canvas::paintEvent (QPaintEvent *event)
 {
@@ -63,6 +64,10 @@ void Canvas::wheelEvent(QWheelEvent *event)
     double cy = (y1 + y2) / 2;
     double dx = x2 - cx;
     double dy = y2 - cy;
+    double mul = std::pow(0.5, event->delta() / 120);
+    dx *= mul;
+    dy *= mul;
+    /*
     if (event->delta() < 0) {
         dx *= 2;
         dy *= 2;
@@ -70,6 +75,7 @@ void Canvas::wheelEvent(QWheelEvent *event)
         dx *= 0.5;
         dy *= 0.5;
     }
+    */
     x1 = cx - dx;
     x2 = cx + dx;
     y1 = cy - dy;
