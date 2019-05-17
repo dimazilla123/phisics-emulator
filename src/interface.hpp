@@ -11,6 +11,8 @@
 #include <QHBoxLayout>
 #include <QGroupBox>
 #include <QLineEdit>
+#include <QMenuBar>
+#include <QMenu>
 #include <QShortcut>
 #include "universe.hpp"
 #include "canvas.hpp"
@@ -24,6 +26,7 @@ class interface : public QWidget
         universe u;
         double speed;
         double time;
+        QMenuBar* bar;
         QCheckBox* update_initor;
         QGroupBox* body_add_widget;
         QLineEdit* mass_input;

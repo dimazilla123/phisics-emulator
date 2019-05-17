@@ -3,45 +3,53 @@
 
 interface::interface (universe vers, int w, int h, double s)
 {
-    this->u = vers;
-    this->speed = s;
+    u = vers;
+    speed = s;
 
     QGroupBox *canvas_box = new QGroupBox ("Universe");
     canvas_box->setMinimumSize (w, h);
 
     QVBoxLayout *canvas_layout = new QVBoxLayout;
-    this->canvas = new Canvas;
-    this->canvas->setMinimumSize (w, h);
-    canvas_layout->addWidget(this->canvas);
+    bar = new QMenuBar;
+    QMenu* save_menu = new QMenu;
+    save_menu->addAction("Save");
+    QMenu* load_menu = new QMenu;
+    load_menu->addAction("Load");
+    bar->addMenu(save_menu);
+    bar->addMenu(load_menu);
+    canvas = new Canvas;
+    canvas->setMinimumSize (w, h);
+    canvas_layout->addWidget(canvas);
     canvas_box->setLayout(canvas_layout);
-    this->body_add_widget = new QGroupBox ("Add bodies");
-    this->update_initor = new QCheckBox ("Update");
-    this->mass_input = new QLineEdit ("Mass");
-    this->pos_x_input = new QLineEdit ("X position");
-    this->pos_y_input = new QLineEdit ("Y position");
-    this->vel_x_input = new QLineEdit ("X velocity");
-    this->vel_y_input = new QLineEdit ("Y velocity");
+    body_add_widget = new QGroupBox ("Add bodies");
+    update_initor = new QCheckBox ("Update");
+    mass_input = new QLineEdit ("Mass");
+    pos_x_input = new QLineEdit ("X position");
+    pos_y_input = new QLineEdit ("Y position");
+    vel_x_input = new QLineEdit ("X velocity");
+    vel_y_input = new QLineEdit ("Y velocity");
 
     QPushButton *add_body_button = new QPushButton ("Add body");
 
     QVBoxLayout *gloabal_layout = new QVBoxLayout;
     QVBoxLayout *body_add_layout = new QVBoxLayout;
     
+    gloabal_layout->addWidget(bar);
     gloabal_layout->addWidget (canvas_box);
-    gloabal_layout->addWidget (this->update_initor);
+    gloabal_layout->addWidget (update_initor);
 
-    body_add_layout->addWidget (this->mass_input);
-    body_add_layout->addWidget (this->pos_x_input);
-    body_add_layout->addWidget (this->pos_y_input);
-    body_add_layout->addWidget (this->vel_x_input);
-    body_add_layout->addWidget (this->vel_y_input);
+    body_add_layout->addWidget (mass_input);
+    body_add_layout->addWidget (pos_x_input);
+    body_add_layout->addWidget (pos_y_input);
+    body_add_layout->addWidget (vel_x_input);
+    body_add_layout->addWidget (vel_y_input);
     body_add_layout->addWidget (add_body_button);
     body_add_layout->addStretch (1);
-    this->body_add_widget->setLayout (body_add_layout);
+    body_add_widget->setLayout (body_add_layout);
 
-    gloabal_layout->addWidget (this->body_add_widget);
+    gloabal_layout->addWidget (body_add_widget);
     gloabal_layout->addStretch (1);
-    this->setLayout (gloabal_layout);
+    setLayout (gloabal_layout);
 
     QTimer *update_state_timer = new QTimer(this);
     QTimer *redraw_timer = new QTimer(this);
@@ -71,72 +79,72 @@ interface::~interface ()
 void interface::move (double x, double y)
 {
     vector2d offset (x, y);
-    this->u.move_all (offset);
+    u.move_all (offset);
 }
 
 void interface::update_universe ()
 {
-    if (this->update_initor->checkState () == Qt::Checked)
+    if (update_initor->checkState () == Qt::Checked)
     {
-        this->u.update (this->time);
+        u.update (time);
     }
 }
 
 void interface::update_canvas()
 {
     std::vector<vector2d> positions;
-    for (auto body_ptr : this->u.getBodies ())
+    for (auto body_ptr : u.getBodies ())
         positions.push_back (body_ptr.getPosition ());
-    this->canvas->draw_points(positions);
+    canvas->draw_points(positions);
     positions.erase (positions.begin (), positions.end ());
 }
 
 void interface::addBody ()
 {
     double mass, pos_x, pos_y, vel_x, vel_y;
-    mass = this->mass_input->text ().toDouble ();
-    pos_x = this->pos_x_input->text ().toDouble ();
-    pos_y = this->pos_y_input->text ().toDouble ();
-    vel_x = this->vel_x_input->text ().toDouble ();
-    vel_y = this->vel_y_input->text ().toDouble ();
+    mass = mass_input->text ().toDouble ();
+    pos_x = pos_x_input->text ().toDouble ();
+    pos_y = pos_y_input->text ().toDouble ();
+    vel_x = vel_x_input->text ().toDouble ();
+    vel_y = vel_y_input->text ().toDouble ();
 
     vector2d pos (pos_x, pos_y), vel (vel_x, vel_y);
     body b(mass);
     b.setPosition(pos);
     b.setVelocity(vel);
-    this->u.addBody(b);
+    u.addBody(b);
 
-    this->mass_input->setText ("Mass");
-    this->pos_x_input->setText ("X position");
-    this->pos_y_input->setText ("Y position");
-    this->vel_x_input->setText ("X velocity");
-    this->vel_y_input->setText ("Y velocity");
+    mass_input->setText ("Mass");
+    pos_x_input->setText ("X position");
+    pos_y_input->setText ("Y position");
+    vel_x_input->setText ("X velocity");
+    vel_y_input->setText ("Y velocity");
 
 }
 
 void interface::run (double time)
 {
-    this->show ();
-    this->time = time;
+    show ();
+    time = time;
 }
 
 void interface::move_up ()
 {
-    this->u.move_all (vector2d (0, this->speed));
-    this->canvas->redraw ();
+    u.move_all (vector2d (0, speed));
+    canvas->redraw ();
 }
 void interface::move_down ()
 {
-    this->u.move_all (vector2d (0, -(this->speed)));
-    this->canvas->redraw ();
+    u.move_all (vector2d (0, -(speed)));
+    canvas->redraw ();
 }
 void interface::move_left ()
 {
-    this->u.move_all (vector2d (this->speed, 0));
-    this->canvas->redraw ();
+    u.move_all (vector2d (speed, 0));
+    canvas->redraw ();
 }
 void interface::move_right ()
 {
-    this->u.move_all (vector2d (-(this->speed), 0));
-    this->canvas->redraw ();
+    u.move_all (vector2d (-(speed), 0));
+    canvas->redraw ();
 }
