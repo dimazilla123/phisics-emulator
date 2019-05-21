@@ -31,29 +31,27 @@ void FormulaTable::add_row()
 {
     forces_table->insertRow(forces_table->rowCount());
     forces_table->setItem(0, forces_table->rowCount(), new QTableWidgetItem);
-
-    formulas.push_back("item");
 }
 
 void FormulaTable::del_row()
 {
     forces_table->removeRow(forces_table->rowCount());
-    formulas.pop_back();
+    // del formula
 }
 
-void FormulaTable::clicked()
+void FormulaTable::check()
 {
     bool flag = false;
-    for (int i = 0; i < formulas.size(); i++)
+    for (int i = 0; i < forces_table->rowCount(); i++)
     if (forces_table->item(0, i) == nullptr || formula(forces_table->item(0, i)->text().toStdString(), 0).is_failed)
     {
         forces_table->setItem(0, i, new QTableWidgetItem);
-        forces_table->item(0, i)->setBackground(Qt:red);
+        forces_table->item(0, i)->setBackground(Qt::red);
     }
     else
     {
         forces_table->item(0, i)->setBackground(Qt::green);
         forceFunction f = createFuncFromCalc(formula(forces_table->item(0, i)->text().toStdString(), 0).data);
-        u->addForce(f, s);
+        u->addForce(f, forces_table->item(0, 1)->text().toStdString());
     }
 }
