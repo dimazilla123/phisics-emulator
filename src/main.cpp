@@ -60,7 +60,7 @@ int main(int argc, char** argv)
                 fprintf(stderr, "Cannot parse %s", force_line.c_str());
                 continue;
             }
-            u.addForce(createFuncFromCalc(form.data));
+            u.addForce(createFuncFromCalc(form.data), force_line);
         }
     }
 

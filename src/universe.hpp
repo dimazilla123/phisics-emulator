@@ -15,8 +15,8 @@ class universe
         std::vector<body> bodies;
         std::vector<std::string> forcename;
         std::vector<forceFunction> forces;
-        void clean();
     public:
+        void clean();
         void addBody (const body& b);
         void removeBodyByIndex (int n);
         void addForce (forceFunction force);
