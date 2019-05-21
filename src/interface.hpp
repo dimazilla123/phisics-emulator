@@ -16,6 +16,7 @@
 #include <QShortcut>
 #include "universe.hpp"
 #include "canvas.hpp"
+#include "formula_table.hpp"
 
 class interface : public QWidget
 {

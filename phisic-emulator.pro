@@ -26,12 +26,14 @@ HEADERS += src/body.hpp \
            src/universe.hpp \
            src/vector2d.hpp \
            src/canvas.hpp \
-	   src/semantics.hpp
+	       src/semantics.hpp \
+           src/formula_table.hpp
 SOURCES += src/body.cpp \
            src/interface.cpp \
            src/main.cpp \
            src/universe.cpp \
            src/vector2d.cpp \
            src/canvas.cpp \
-	   src/semantics.cpp \
-           src/parsing.cpp
+	       src/semantics.cpp \
+           src/parsing.cpp \
+           src/formula_table.cpp
