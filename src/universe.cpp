@@ -1,4 +1,6 @@
 #include "universe.hpp"
+#include "parsing.hpp"
+#include "semantics.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -92,7 +94,7 @@ void universe::save(const std::string& filename)
     out << bodies.size() << "\n";
     for (body& b : bodies) {
         out << b.getMass() << "\n";
-        std::cout << b.parameters.size() << "\n";
+        out << b.parameters.size() << "\n";
         for (auto [name, val] : b.parameters)
             out << name << " " << val << "\n";
         out << b.getPosition().getX() << " " << b.getPosition().getY() << "\n";
@@ -128,6 +130,18 @@ bool universe::load(const std::string& filename)
                 bodies.back().setVelocity(vector2d(velx, vely));
             } else return false;
         } else return false;
+    }
+    int forces_cnt;
+    if (in >> forces_cnt) {
+        std::string force_Str;
+        std::getline(in, force_Str);
+        for (int i = 0; i < forces_cnt; i++) {
+            if (std::getline(in, force_Str)) {
+                Parser<Stack> form = formula(force_Str, 0);
+                if (!form.is_failed)
+                    addForce(createFuncFromCalc(form.data), force_Str);
+            } else return false;
+        }
     }
     return res;
 }

@@ -1,4 +1,5 @@
 #include "interface.hpp"
+#include <QFileDialog>
 #include <vector>
 
 interface::interface (universe vers, int w, int h, double s)
@@ -12,15 +13,19 @@ interface::interface (universe vers, int w, int h, double s)
     canvas_box->setMinimumSize (w, h);
 
     QVBoxLayout *canvas_layout = new QVBoxLayout;
+
     bar = new QMenuBar;
-    QMenu* file_menu = new QMenu;
-    file_menu->addAction(tr("Save"));
-    file_menu->addAction(tr("Load"));
-    bar->addMenu(file_menu);
+    QMenu* file_menu = bar->addMenu("File");
+    QAction* save_act = file_menu->addAction("Save");
+    QAction* load_act = file_menu->addAction("Load");
+    connect(save_act, SIGNAL(triggered()), this, SLOT(save()));
+    connect(load_act, SIGNAL(triggered()), this, SLOT(load()));
+
     canvas = new Canvas;
     canvas->setMinimumSize (w, h);
     canvas_layout->addWidget(canvas);
     canvas_box->setLayout(canvas_layout);
+
     body_add_widget = new QGroupBox ("Add bodies");
     update_initor = new QCheckBox ("Update");
     mass_input = new QLineEdit ("Mass");
@@ -35,6 +40,7 @@ interface::interface (universe vers, int w, int h, double s)
     QVBoxLayout *gloabal_layout = new QVBoxLayout;
     QVBoxLayout *body_add_layout = new QVBoxLayout;
     
+    gloabal_layout->setMargin(5);
     gloabal_layout->addWidget(bar);
     gloabal_layout->addWidget (canvas_box);
     gloabal_layout->addWidget (update_initor);
@@ -126,10 +132,10 @@ void interface::addBody ()
 
 }
 
-void interface::run (double time)
+void interface::run (double time_)
 {
     show ();
-    time = time;
+    time = time_;
 }
 
 void interface::move_up ()
@@ -151,4 +157,21 @@ void interface::move_right ()
 {
     u.move_all (vector2d (-(speed), 0));
     canvas->redraw ();
+}
+
+void interface::save()
+{
+    std::cerr << "Save" << "\n";
+    std::string filename = QFileDialog::getSaveFileName(this,
+            tr("Save universe state"), "", tr("Emulator universe (*.univ)")).toStdString();
+    u.save(filename);
+}
+
+void interface::load()
+{
+    std::cerr << "Load" << "\n";
+    std::string filename = QFileDialog::getOpenFileName(this,
+            tr("Open universe state"), "", tr("Emulator universe (*.univ)")).toStdString();
+    u.clean();
+    u.load(filename);
 }

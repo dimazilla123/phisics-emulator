@@ -41,6 +41,8 @@ class interface : public QWidget
         void move (double x, double y);
         void run (double time);
     public slots:
+        void save();
+        void load();
         void move_up();
         void move_down();
         void move_left();
