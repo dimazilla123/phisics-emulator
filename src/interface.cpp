@@ -22,6 +22,7 @@ interface::interface (universe vers, int w, int h, double s)
     QAction* load_act = file_menu->addAction("Load");
     connect(save_act, SIGNAL(triggered()), this, SLOT(save()));
     connect(load_act, SIGNAL(triggered()), this, SLOT(load()));
+    connect(load_act, SIGNAL(triggered()), formulatable, SLOT(reload()));
 
     canvas = new Canvas;
     canvas->setMinimumSize (w, h);
@@ -48,6 +49,8 @@ interface::interface (universe vers, int w, int h, double s)
     gloabal_layout->addWidget (canvas_box);
     gloabal_layout->addWidget (update_initor);
 
+    body_add_layout->addWidget (forces_table_button);
+    body_add_layout->addWidget (body_table_button);
     body_add_layout->addWidget (mass_input);
     body_add_layout->addWidget (pos_x_input);
     body_add_layout->addWidget (pos_y_input);
@@ -57,8 +60,6 @@ interface::interface (universe vers, int w, int h, double s)
     body_add_layout->addStretch (1);
     body_add_widget->setLayout (body_add_layout);
 
-    body_add_layout->addWidget (forces_table_button);
-    body_add_layout->addWidget (body_table_button);
 
     gloabal_layout->addWidget (body_add_widget);
     gloabal_layout->addStretch (1);

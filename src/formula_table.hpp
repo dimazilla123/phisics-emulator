@@ -30,6 +30,7 @@ public slots:
     void add_row();
     void del_row();
     void check();
+    void reload();
 };
 
 

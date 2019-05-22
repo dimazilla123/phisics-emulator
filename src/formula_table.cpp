@@ -74,3 +74,12 @@ void FormulaTable::check()
     if (flag)
         err_box->show();
 }
+
+void FormulaTable::reload()
+{
+    forces_table->clear();
+    for (int i = 0; i < u->forces.size(); i++) {
+        add_row();
+        forces_table->setItem(i, 0, new QTableWidgetItem(QString(u->forcename[i].c_str())));
+    }
+}
