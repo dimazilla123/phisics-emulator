@@ -20,6 +20,7 @@ class universe
         void addBody (const body& b);
         void removeBodyByIndex (int n);
         void addForce (forceFunction force);
+        void remForce ();
         void addForce (forceFunction force, const std::string& name);
         void update (double time);
         std::vector<body> getBodies ();

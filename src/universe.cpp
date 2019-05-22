@@ -25,6 +25,11 @@ void universe::addForce (forceFunction f)
     addForce(f, "unnamed");
 }
 
+void universe::remForce ()
+{
+    this->forces.pop_back();
+}
+
 void universe::addForce(forceFunction f, const std::string& name)
 {
     this->forces.push_back(f);

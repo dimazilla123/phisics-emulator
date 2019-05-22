@@ -36,7 +36,7 @@ void FormulaTable::add_row()
 void FormulaTable::del_row()
 {
     forces_table->removeRow(forces_table->rowCount());
-    // del formula
+    u->remForce();
 }
 
 void FormulaTable::check()
@@ -47,6 +47,7 @@ void FormulaTable::check()
     {
         forces_table->setItem(0, i, new QTableWidgetItem);
         forces_table->item(0, i)->setBackground(Qt::red);
+        flag = true;
     }
     else
     {
@@ -54,4 +55,6 @@ void FormulaTable::check()
         forceFunction f = createFuncFromCalc(formula(forces_table->item(0, i)->text().toStdString(), 0).data);
         u->addForce(f, forces_table->item(0, 1)->text().toStdString());
     }
+    if (flag)
+        err_box->show();
 }

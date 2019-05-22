@@ -3,6 +3,7 @@
 
 #include "parsing.hpp"
 #include "universe.hpp"
+#include "semantics.hpp"
 
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -20,6 +21,7 @@ private:
     QTableWidget* forces_table;
     std::vector<std::string> formulas;
     QMessageBox* err_box = new QMessageBox;
+    universe* u = new universe;
 public:
     FormulaTable();
     //~BodyTable();
