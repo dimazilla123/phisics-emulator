@@ -1,4 +1,5 @@
 #include "body_table.hpp"
+#include <QVBoxLayout>
 
 BodyTable::BodyTable(universe* v)
 {
@@ -17,14 +18,30 @@ BodyTable::BodyTable(universe* v)
     body_table->closePersistentEditor(body_table->item(0, 0));
     body_table->closePersistentEditor(body_table->item(0, 1));
 
+    body_add_widget = new QGroupBox ("Add bodies");
+    mass_input = new QLineEdit ("Mass");
+    pos_x_input = new QLineEdit ("X position");
+    pos_y_input = new QLineEdit ("Y position");
+    vel_x_input = new QLineEdit ("X velocity");
+    vel_y_input = new QLineEdit ("Y velocity");
+    QVBoxLayout* body_layout = new QVBoxLayout;
+    body_layout->addWidget(add_row_button);
+    body_layout->addWidget(mass_input);
+    body_layout->addWidget(pos_x_input);
+    body_layout->addWidget(pos_y_input);
+    body_layout->addWidget(vel_x_input);
+    body_layout->addWidget(vel_y_input);
+    body_add_widget->setLayout(body_layout);
+
     QGridLayout* grid = new QGridLayout;
 
-    grid->addWidget(add_row_button, 0, 0);
     grid->addWidget(del_row_button, 0, 1);
     grid->addWidget(add_col_button, 0, 2);
     grid->addWidget(del_row_button, 0, 3);
     grid->addWidget(update_button,  0, 4);
     grid->addWidget(body_table, 0, 1, 1, 5);
+
+    grid->addWidget(body_add_widget, 0, 0);
 
     connect(add_row_button, SIGNAL(clicked()), this, SLOT(add_row()));
     connect(del_row_button, SIGNAL(clicked()), this, SLOT(del_row()));
