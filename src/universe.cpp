@@ -113,7 +113,7 @@ bool universe::load(const std::string& filename)
     if (!(in >> n))
         res = false;
     for (int i = 0; i < n; i++) {
-        int m;
+        double m;
         if (in >> m) {
             bodies.push_back(body(m));
             int param_cnt = 0;
