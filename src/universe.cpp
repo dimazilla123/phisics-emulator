@@ -25,7 +25,7 @@ void universe::addForce (forceFunction f)
     addForce(f, "unnamed");
 }
 
-void universe::remForce ()
+void universe::removeForce ()
 {
     this->forces.pop_back();
 }

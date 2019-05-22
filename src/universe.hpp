@@ -12,15 +12,15 @@
 class universe
 {
     private:
+        void clean();
+    public:
         std::vector<body> bodies;
         std::vector<std::string> forcename;
         std::vector<forceFunction> forces;
-        void clean();
-    public:
         void addBody (const body& b);
         void removeBodyByIndex (int n);
         void addForce (forceFunction force);
-        void remForce ();
+        void removeForce ();
         void addForce (forceFunction force, const std::string& name);
         void update (double time);
         std::vector<body> getBodies ();
