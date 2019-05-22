@@ -1,7 +1,8 @@
 #include "formula_table.hpp"
 
-FormulaTable::FormulaTable()
+FormulaTable::FormulaTable(universe* u_)
 {
+    u = u_;
     QPushButton* add_button = new QPushButton("Add");
     QPushButton* del_button = new QPushButton("Del");
     QPushButton* check_button = new QPushButton("Check");
@@ -52,6 +53,8 @@ void FormulaTable::del_row()
 
 void FormulaTable::check()
 {
+    u->forces.clear();
+    u->forcename.clear();
     bool flag = false;
     for (int i = 0; i < forces_table->rowCount(); i++)
         if (forces_table->item(i, 0) == nullptr || formula(forces_table->item(i, 0)->text().toStdString(), 0).is_failed)

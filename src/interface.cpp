@@ -7,7 +7,7 @@ interface::interface (universe vers, int w, int h, double s)
     u = vers;
     speed = s;
      
-    FormulaTable *formulatable = new FormulaTable;
+    FormulaTable *formulatable = new FormulaTable(&u);
 
     QGroupBox *canvas_box = new QGroupBox ("Universe");
     canvas_box->setMinimumSize (w, h);
@@ -78,8 +78,8 @@ interface::interface (universe vers, int w, int h, double s)
     connect (left, SIGNAL (activated ()), this, SLOT (move_left ()));
     connect (right, SIGNAL (activated ()), this, SLOT (move_right ()));
 
-    update_state_timer->start(10);
-    redraw_timer->start(10);
+    update_state_timer->start(1);
+    redraw_timer->start(1);
 }
 
 interface::~interface ()

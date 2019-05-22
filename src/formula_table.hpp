@@ -21,9 +21,9 @@ private:
     QTableWidget* forces_table;
     std::vector<std::string> formulas;
     QMessageBox* err_box = new QMessageBox;
-    universe* u = new universe;
+    universe* u;
 public:
-    FormulaTable();
+    FormulaTable(universe* u);
     //~BodyTable();
 public slots:
     void show_forces_table();
