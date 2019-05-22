@@ -11,9 +11,8 @@
 
 class universe
 {
-    private:
-        void clean();
     public:
+        void clean();
         std::vector<body> bodies;
         std::vector<std::string> forcename;
         std::vector<forceFunction> forces;

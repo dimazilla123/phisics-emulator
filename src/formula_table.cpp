@@ -54,19 +54,20 @@ void FormulaTable::check()
 {
     bool flag = false;
     for (int i = 0; i < forces_table->rowCount(); i++)
-    if (forces_table->item(i, 0) == nullptr || formula(forces_table->item(i, 0)->text().toStdString(), 0).is_failed)
-    {
-        forces_table->setItem(i, 0, new QTableWidgetItem);
-        forces_table->item(i, 0)->setBackground(Qt::red);
-        flag = true;
-    }
-    else
-    {
-        forces_table->item(i, 0)->setBackground(Qt::green);
-        auto parsed = formula(forces_table->item(i, 0)->text().toStdString(), 0);
-        auto f = createFuncFromCalc(parsed.data);
-        u->addForce(f, forces_table->item(i, 0)->text().toStdString());
-    }
+        if (forces_table->item(i, 0) == nullptr || formula(forces_table->item(i, 0)->text().toStdString(), 0).is_failed)
+        {
+            forces_table->setItem(i, 0, new QTableWidgetItem);
+            forces_table->item(i, 0)->setBackground(Qt::red);
+            flag = true;
+        }
+        else
+        {
+            std::cerr << "Adding force" << "\n";
+            forces_table->item(i, 0)->setBackground(Qt::green);
+            auto parsed = formula(forces_table->item(i, 0)->text().toStdString(), 0);
+            auto f = createFuncFromCalc(parsed.data);
+            u->addForce(f, forces_table->item(i, 0)->text().toStdString());
+        }
     if (flag)
         err_box->show();
 }
