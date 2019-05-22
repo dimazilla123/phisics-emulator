@@ -1,20 +1,21 @@
 #include "body_table.hpp"
 
-BodyTable::BodyTable()
+BodyTable::BodyTable(universe* v)
 {
+    u = v;
     QPushButton* add_row_button = new QPushButton("Add body");
     QPushButton* del_row_button = new QPushButton("Del body");
     QPushButton* add_col_button = new QPushButton("Add parameter");
     QPushButton* del_col_button = new QPushButton("Del parameter");
     QPushButton* update_button = new QPushButton("update");
 
-    body_table = new QTableWidget(1, 2;
+    body_table = new QTableWidget(1, 2);
     update_box->setText("update was complited");
 
-    body_table->item(0, 0) = new QTableWidgetItem("Parameter");
-    body_table->item(0, 1) = new QTableWidgetItem("m")
-    body_table->item(0, 0)->closePersistentEditor();
-    body_table->item(0, 1)->closePersistentEditor();
+    body_table->setItem(0, 0, new QTableWidgetItem("Parameter"));
+    body_table->setItem(0, 1, new QTableWidgetItem("m"));
+    body_table->closePersistentEditor(body_table->item(0, 0));
+    body_table->closePersistentEditor(body_table->item(0, 1));
 
     QGridLayout* grid = new QGridLayout;
 
@@ -25,13 +26,13 @@ BodyTable::BodyTable()
     grid->addWidget(update_button,  0, 4);
     grid->addWidget(body_table, 0, 1, 1, 5);
 
-    connect(add_row_button, SIGNAL(clicked()), this, SLOT(add_row));
-    connect(del_row_button, SIGNAL(clicked()), this, SLOT(del_row));
-    connect(add_col_button, SIGNAL(clicked()), this, SLOT(add_col));
-    connect(del_col_button, SIGNAL(clicked()), this, SLOT(del_col));
+    connect(add_row_button, SIGNAL(clicked()), this, SLOT(add_row()));
+    connect(del_row_button, SIGNAL(clicked()), this, SLOT(del_row()));
+    connect(add_col_button, SIGNAL(clicked()), this, SLOT(add_col()));
+    connect(del_col_button, SIGNAL(clicked()), this, SLOT(del_col()));
     connect(update_button, SIGNAL(clicked()), this, SLOT(update()));
 
-    this->setLayout();
+    this->setLayout(grid);
 }
 
 void BodyTable::show_body_table()

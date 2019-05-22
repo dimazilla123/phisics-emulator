@@ -1,4 +1,5 @@
 #include "interface.hpp"
+#include "body_table.hpp"
 #include <QFileDialog>
 #include <vector>
 
@@ -8,6 +9,7 @@ interface::interface (universe vers, int w, int h, double s)
     speed = s;
      
     FormulaTable *formulatable = new FormulaTable(&u);
+    BodyTable* bodytable = new BodyTable(&u);
 
     QGroupBox *canvas_box = new QGroupBox ("Universe");
     canvas_box->setMinimumSize (w, h);
@@ -36,6 +38,7 @@ interface::interface (universe vers, int w, int h, double s)
 
     QPushButton *add_body_button = new QPushButton ("Add body");
     QPushButton *forces_table_button = new QPushButton("Forces table");
+    QPushButton *body_table_button = new QPushButton("Body table");
 
     QVBoxLayout *gloabal_layout = new QVBoxLayout;
     QVBoxLayout *body_add_layout = new QVBoxLayout;
@@ -55,6 +58,7 @@ interface::interface (universe vers, int w, int h, double s)
     body_add_widget->setLayout (body_add_layout);
 
     body_add_layout->addWidget (forces_table_button);
+    body_add_layout->addWidget (body_table_button);
 
     gloabal_layout->addWidget (body_add_widget);
     gloabal_layout->addStretch (1);
@@ -72,6 +76,7 @@ interface::interface (universe vers, int w, int h, double s)
     connect(redraw_timer, SIGNAL(timeout()), this, SLOT(update_canvas()));
     connect(add_body_button, SIGNAL(clicked ()), this, SLOT (addBody ()));
     connect (forces_table_button, SIGNAL(clicked()), formulatable, SLOT (show_forces_table()));
+    connect (body_table_button, SIGNAL(clicked()), bodytable, SLOT (show_body_table()));
 
     connect (up, SIGNAL (activated ()), this, SLOT (move_up ()));
     connect (down, SIGNAL (activated ()), this, SLOT (move_down ()));

@@ -1,5 +1,5 @@
-#ifndef FORMULA_TABLE
-#define FORMULA_TABLE
+#ifndef FORMULA_TABLE_HPP
+#define FORMULA_TABLE_HPP
   
 #include "parsing.hpp"
 #include "universe.hpp"
@@ -12,22 +12,22 @@
 #include <vector>
 #include <QMessageBox>
 
-class ParameterTable : public QWidget
+class BodyTable : public QWidget
 {
     Q_OBJECT
 private:
-        QTableWidget* parameter_table = new QTableWidget;
-        std::vector<std::int> bodies;
+        QTableWidget* body_table = new QTableWidget;
+        std::vector<int> bodies;
         QMessageBox* update_box = new QMessageBox;
+        universe* u;
 public:
-        ParameterTable();
-        //~ParameterTable();
+        BodyTable(universe* v);
 public slots:
-    void show parameter_table();
-    add_row();
-    del_row();
-    add_col();
-    del_col();
-    update();
-}
-
+    void show_body_table();
+    void add_row();
+    void del_row();
+    void add_col();
+    void del_col();
+    void update();
+};
+#endif
