@@ -79,7 +79,7 @@ void Universe::print(int mode)
     putchar('\n');
 }
 
-void Universe::move_all(vector2d offset)
+void Universe::moveAll(vector2d offset)
 {
     for (auto &b : bodies)
     {

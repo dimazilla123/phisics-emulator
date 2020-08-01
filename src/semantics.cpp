@@ -15,13 +15,13 @@ bool is_num(const std::string& s)
     return true;
 }
 
-std::vector<token> prepare(const Stack& expr, Body b1, Body b2)
+std::vector<Token> prepare(const Stack& expr, Body b1, Body b2)
 {
     Body bodies[] = {b1, b2};
-    std::vector<token> ret;
+    std::vector<Token> ret;
     for (auto s : expr) 
     {
-        token obj;
+        Token obj;
         if (s == "+" || s == "-" || s == "*" || s == "/" || s == "%" || s == "^")
         {
             obj.op = s[0];
@@ -80,7 +80,7 @@ std::vector<token> prepare(const Stack& expr, Body b1, Body b2)
     return ret;
 }
 
-void print_token_st(const std::vector<token>& v)
+void print_Token_st(const std::vector<Token>& v)
 {
     for (auto t : v) {
         if (t.t == TokenType::NUM)
@@ -95,10 +95,10 @@ void print_token_st(const std::vector<token>& v)
     std::cerr << "\n";
 }
 
-token calc(const Stack& expr, const Body& b1, const Body& b2)
+Token calc(const Stack& expr, const Body& b1, const Body& b2)
 {
     vector2d r;
-    std::vector<token> st;
+    std::vector<Token> st;
     auto data = prepare(expr, b1, b2);
     for (auto t : data) 
     {
@@ -108,9 +108,9 @@ token calc(const Stack& expr, const Body& b1, const Body& b2)
         }
         else if (t.t == TokenType::FUNCTION)
         {
-            token operand = st.back();
+            Token operand = st.back();
             st.pop_back();
-            token r;
+            Token r;
             r.t = TokenType::NUM;
             if (operand.t == TokenType::NUM)
                 r.n = std::abs(operand.n);
@@ -120,11 +120,11 @@ token calc(const Stack& expr, const Body& b1, const Body& b2)
         }
         else
         {
-            token op2 = st.back();
+            Token op2 = st.back();
             st.pop_back();
-            token op1 = st.back();
+            Token op1 = st.back();
             st.pop_back();
-            token r;
+            Token r;
             if (op2.t == op1.t)
             {
                 if (op1.t == TokenType::NUM)
@@ -183,7 +183,7 @@ token calc(const Stack& expr, const Body& b1, const Body& b2)
             }
             st.push_back(r);
         }
-        //print_token_st(st);
+        //print_Token_st(st);
     }
     return st[0];
 }

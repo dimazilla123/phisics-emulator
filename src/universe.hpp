@@ -24,7 +24,7 @@ class Universe
         void update(double time);
         std::vector<Body> getBodies();
         void print(int mode);
-        void move_all(vector2d offset);
+        void moveAll(vector2d offset);
         void save(const std::string& filename);
         bool load(const std::string& filename); // false if failed
 };

@@ -26,9 +26,9 @@ public:
     FormulaTable(Universe* u);
     //~BodyTable();
 public slots:
-    void show_forces_table();
-    void add_row();
-    void del_row();
+    void showForcesTable();
+    void addRow();
+    void delRow();
     void check();
     void reload();
 };

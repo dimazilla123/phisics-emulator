@@ -31,11 +31,11 @@ private:
 public:
         BodyTable(Universe* v);
 public slots:
-    void show_body_table();
-    void add_row();
-    void del_row();
-    void add_col();
-    void del_col();
+    void showBodyTable();
+    void addRow();
+    void delRow();
+    void addCol();
+    void delCol();
     void update();
 };
 #endif

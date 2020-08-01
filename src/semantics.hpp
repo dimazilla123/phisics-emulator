@@ -13,7 +13,7 @@ enum TokenType
     OP,
     FUNCTION
 };
-struct token
+struct Token
 {
     TokenType t;
     double n;
@@ -22,8 +22,8 @@ struct token
     std::string func;
 };
 
-token calc(const Stack& expr, const Body& a, const Body& b);
-std::vector<token> prepare(Stack& expr, Body b1, Body b2);
+Token calc(const Stack& expr, const Body& a, const Body& b);
+std::vector<Token> prepare(Stack& expr, Body b1, Body b2);
 
 forceFunction createFuncFromCalc(Stack& expr);
 

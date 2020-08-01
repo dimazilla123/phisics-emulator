@@ -73,16 +73,16 @@ Interface::Interface(Universe vers, int w, int h, double s)
     QShortcut *left = new QShortcut(QKeySequence(Qt::Key_Left), this);
     QShortcut *right = new QShortcut(QKeySequence(Qt::Key_Right), this);
 
-    connect(update_state_timer, SIGNAL(timeout()), this, SLOT(update_Universe()));
-    connect(redraw_timer, SIGNAL(timeout()), this, SLOT(update_canvas()));
+    connect(update_state_timer, SIGNAL(timeout()), this, SLOT(updateUniverse()));
+    connect(redraw_timer, SIGNAL(timeout()), this, SLOT(updateCanvas()));
     connect(add_body_button, SIGNAL(clicked()), this, SLOT(addBody()));
-    connect(forces_table_button, SIGNAL(clicked()), formulatable, SLOT(show_forces_table()));
-    connect(body_table_button, SIGNAL(clicked()), bodytable, SLOT(show_body_table()));
+    connect(forces_table_button, SIGNAL(clicked()), formulatable, SLOT(showForcesTable()));
+    connect(body_table_button, SIGNAL(clicked()), bodytable, SLOT(showBodyTable()));
 
-    connect(up, SIGNAL(activated()), this, SLOT(move_up()));
-    connect(down, SIGNAL(activated()), this, SLOT(move_down()));
-    connect(left, SIGNAL(activated()), this, SLOT(move_left()));
-    connect(right, SIGNAL(activated()), this, SLOT(move_right()));
+    connect(up, SIGNAL(activated()), this, SLOT(moveUp()));
+    connect(down, SIGNAL(activated()), this, SLOT(moveDown()));
+    connect(left, SIGNAL(activated()), this, SLOT(moveLeft()));
+    connect(right, SIGNAL(activated()), this, SLOT(moveRight()));
 
     update_state_timer->start(1);
     redraw_timer->start(1);
@@ -95,10 +95,10 @@ Interface::~Interface()
 void Interface::move(double x, double y)
 {
     vector2d offset(x, y);
-    u.move_all(offset);
+    u.moveAll(offset);
 }
 
-void Interface::update_Universe()
+void Interface::updateUniverse()
 {
     if (update_initor->checkState() == Qt::Checked)
     {
@@ -106,12 +106,12 @@ void Interface::update_Universe()
     }
 }
 
-void Interface::update_canvas()
+void Interface::updateCanvas()
 {
     std::vector<vector2d> positions;
     for (auto body_ptr : u.getBodies())
         positions.push_back(body_ptr.getPosition());
-    canvas->draw_points(positions);
+    canvas->drawPoints(positions);
     positions.erase(positions.begin(), positions.end());
 }
 
@@ -144,24 +144,24 @@ void Interface::run(double time_)
     time = time_;
 }
 
-void Interface::move_up()
+void Interface::moveUp()
 {
-    u.move_all(vector2d(0, speed));
+    u.moveAll(vector2d(0, speed));
     canvas->redraw();
 }
-void Interface::move_down()
+void Interface::moveDown()
 {
-    u.move_all(vector2d(0, -(speed)));
+    u.moveAll(vector2d(0, -(speed)));
     canvas->redraw();
 }
-void Interface::move_left()
+void Interface::moveLeft()
 {
-    u.move_all(vector2d(speed, 0));
+    u.moveAll(vector2d(speed, 0));
     canvas->redraw();
 }
-void Interface::move_right()
+void Interface::moveRight()
 {
-    u.move_all(vector2d(-(speed), 0));
+    u.moveAll(vector2d(-(speed), 0));
     canvas->redraw();
 }
 

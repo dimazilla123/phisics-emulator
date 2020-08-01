@@ -16,25 +16,25 @@ FormulaTable::FormulaTable(Universe* u_)
     grid->addWidget(del_button, 0, 1);
     grid->addWidget(forces_table, 1, 0, 1, 3);
     
-    connect(add_button, SIGNAL(clicked()), this, SLOT(add_row()));
-    connect(del_button, SIGNAL(clicked()), this, SLOT(del_row()));
+    connect(add_button, SIGNAL(clicked()), this, SLOT(addRow()));
+    connect(del_button, SIGNAL(clicked()), this, SLOT(delRow()));
     connect(check_button, SIGNAL(clicked()), this, SLOT(check()));
 
     this->setLayout(grid);
 }
 
-void FormulaTable::show_forces_table()
+void FormulaTable::showForcesTable()
 {
     this->show();
 }
 
-void FormulaTable::add_row()
+void FormulaTable::addRow()
 {
     forces_table->insertRow(forces_table->rowCount());
     forces_table->setItem(0, forces_table->rowCount(), new QTableWidgetItem);
 }
 
-void FormulaTable::del_row()
+void FormulaTable::delRow()
 {
     auto item = forces_table->currentItem();
     int row = -1;
@@ -79,7 +79,7 @@ void FormulaTable::reload()
 {
     forces_table->clear();
     for (int i = 0; i < u->forces.size(); i++) {
-        add_row();
+        addRow();
         forces_table->setItem(i, 0, new QTableWidgetItem(QString(u->forcename[i].c_str())));
     }
 }

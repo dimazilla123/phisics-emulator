@@ -104,7 +104,7 @@ void Canvas::redraw()
     update();
 }
 
-void Canvas::draw_points(const std::vector<vector2d> &points)
+void Canvas::drawPoints(const std::vector<vector2d> &points)
 {
     this->body_positions.clear();
 

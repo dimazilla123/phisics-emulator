@@ -15,6 +15,14 @@
 class Canvas : public QWidget
 {
     Q_OBJECT
+public:
+    QPainter* painter;
+    void drawPoints(const std::vector<vector2d> &points);
+    Canvas(QWidget *parent);
+    Canvas();
+    ~Canvas();
+public slots:
+    void redraw();
 private:
     QVector<QPointF> body_positions;
     void paintEvent(QPaintEvent *event);
@@ -32,12 +40,4 @@ private:
     bool ispanning = false;
     int anc_x, anc_y;
     double zoom = 1;
-public:
-    QPainter* painter;
-    void draw_points(const std::vector<vector2d> &points);
-    Canvas(QWidget *parent);
-    Canvas();
-    ~Canvas();
-public slots:
-    void redraw();
 };

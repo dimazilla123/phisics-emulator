@@ -43,12 +43,12 @@ class Interface : public QWidget
     public slots:
         void save();
         void load();
-        void move_up();
-        void move_down();
-        void move_left();
-        void move_right();
-        void update_Universe();
-        void update_canvas();
+        void moveUp();
+        void moveDown();
+        void moveLeft();
+        void moveRight();
+        void updateUniverse();
+        void updateCanvas();
         void addBody();
 };
 
