@@ -18,7 +18,7 @@
 #include "canvas.hpp"
 #include "formula_table.hpp"
 
-class interface : public QWidget
+class Interface : public QWidget
 {
     Q_OBJECT
     private:
@@ -36,8 +36,8 @@ class interface : public QWidget
         QLineEdit* vel_x_input;
         QLineEdit* vel_y_input;
     public:
-        interface(Universe vers, int w, int h, double speed);
-        ~interface();
+        Interface(Universe vers, int w, int h, double speed);
+        ~Interface();
         void move(double x, double y);
         void run(double time);
     public slots:

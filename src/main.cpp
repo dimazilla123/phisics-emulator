@@ -76,7 +76,7 @@ int main(int argc, char** argv)
 
     QApplication app(argc, argv);
 
-    interface interf(u, wight, hight, speed);
+    Interface interf(u, wight, hight, speed);
     interf.show();
     interf.run(time);
 

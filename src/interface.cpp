@@ -3,7 +3,7 @@
 #include <QFileDialog>
 #include <vector>
 
-interface::interface(Universe vers, int w, int h, double s)
+Interface::Interface(Universe vers, int w, int h, double s)
 {
     u = vers;
     speed = s;
@@ -88,17 +88,17 @@ interface::interface(Universe vers, int w, int h, double s)
     redraw_timer->start(1);
 }
 
-interface::~interface()
+Interface::~Interface()
 {
 }
 
-void interface::move(double x, double y)
+void Interface::move(double x, double y)
 {
     vector2d offset(x, y);
     u.move_all(offset);
 }
 
-void interface::update_Universe()
+void Interface::update_Universe()
 {
     if (update_initor->checkState() == Qt::Checked)
     {
@@ -106,7 +106,7 @@ void interface::update_Universe()
     }
 }
 
-void interface::update_canvas()
+void Interface::update_canvas()
 {
     std::vector<vector2d> positions;
     for (auto body_ptr : u.getBodies())
@@ -115,7 +115,7 @@ void interface::update_canvas()
     positions.erase(positions.begin(), positions.end());
 }
 
-void interface::addBody()
+void Interface::addBody()
 {
     double mass, pos_x, pos_y, vel_x, vel_y;
     mass = mass_input->text().toDouble();
@@ -138,34 +138,34 @@ void interface::addBody()
 
 }
 
-void interface::run(double time_)
+void Interface::run(double time_)
 {
     show();
     time = time_;
 }
 
-void interface::move_up()
+void Interface::move_up()
 {
     u.move_all(vector2d(0, speed));
     canvas->redraw();
 }
-void interface::move_down()
+void Interface::move_down()
 {
     u.move_all(vector2d(0, -(speed)));
     canvas->redraw();
 }
-void interface::move_left()
+void Interface::move_left()
 {
     u.move_all(vector2d(speed, 0));
     canvas->redraw();
 }
-void interface::move_right()
+void Interface::move_right()
 {
     u.move_all(vector2d(-(speed), 0));
     canvas->redraw();
 }
 
-void interface::save()
+void Interface::save()
 {
     std::cerr << "Save" << "\n";
     std::string filename = QFileDialog::getSaveFileName(this,
@@ -173,7 +173,7 @@ void interface::save()
     u.save(filename);
 }
 
-void interface::load()
+void Interface::load()
 {
     std::cerr << "Load" << "\n";
     std::string filename = QFileDialog::getOpenFileName(this,
