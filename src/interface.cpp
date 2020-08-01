@@ -3,7 +3,7 @@
 #include <QFileDialog>
 #include <vector>
 
-interface::interface (universe vers, int w, int h, double s)
+interface::interface (Universe vers, int w, int h, double s)
 {
     u = vers;
     speed = s;
@@ -73,7 +73,7 @@ interface::interface (universe vers, int w, int h, double s)
     QShortcut *left = new QShortcut (QKeySequence (Qt::Key_Left), this);
     QShortcut *right = new QShortcut (QKeySequence (Qt::Key_Right), this);
 
-    connect (update_state_timer, SIGNAL(timeout ()), this, SLOT (update_universe ()));
+    connect (update_state_timer, SIGNAL(timeout ()), this, SLOT (update_Universe ()));
     connect(redraw_timer, SIGNAL(timeout()), this, SLOT(update_canvas()));
     connect(add_body_button, SIGNAL(clicked ()), this, SLOT (addBody ()));
     connect (forces_table_button, SIGNAL(clicked()), formulatable, SLOT (show_forces_table()));
@@ -98,7 +98,7 @@ void interface::move (double x, double y)
     u.move_all (offset);
 }
 
-void interface::update_universe ()
+void interface::update_Universe ()
 {
     if (update_initor->checkState () == Qt::Checked)
     {
@@ -125,7 +125,7 @@ void interface::addBody ()
     vel_y = vel_y_input->text ().toDouble ();
 
     vector2d pos (pos_x, pos_y), vel (vel_x, vel_y);
-    body b(mass);
+    Body b(mass);
     b.setPosition(pos);
     b.setVelocity(vel);
     u.addBody(b);
@@ -169,7 +169,7 @@ void interface::save()
 {
     std::cerr << "Save" << "\n";
     std::string filename = QFileDialog::getSaveFileName(this,
-            tr("Save universe state"), "", tr("Emulator universe (*.univ)")).toStdString();
+            tr("Save Universe state"), "", tr("Emulator Universe (*.univ)")).toStdString();
     u.save(filename);
 }
 
@@ -177,7 +177,7 @@ void interface::load()
 {
     std::cerr << "Load" << "\n";
     std::string filename = QFileDialog::getOpenFileName(this,
-            tr("Open universe state"), "", tr("Emulator universe (*.univ)")).toStdString();
+            tr("Open Universe state"), "", tr("Emulator Universe (*.univ)")).toStdString();
     u.clean();
     u.load(filename);
 }

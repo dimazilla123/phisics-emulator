@@ -7,10 +7,10 @@
 #include <string>
 #include <functional>
 
-class body;
-using forceFunction = std::function<vector2d(const body&, const body&)>;
+class Body;
+using forceFunction = std::function<vector2d(const Body&, const Body&)>;
 
-class body
+class Body
 {
     private:
         double mass;
@@ -18,19 +18,19 @@ class body
         vector2d velocity;
         vector2d forceSum;
     public:
-        std::map<std::string,double> parameters;
-        body (double massN);
+        std::map<std::string, double> parameters;
+        Body (double massN);
         void setPosition (vector2d newPos);
         vector2d getPosition () const;
         void setVelocity (vector2d newVelocity);
         vector2d getVelocity () const;
-        body (double massN, std::vector<std::string> parametersNames);
+        Body (double massN, std::vector<std::string> parametersNames);
         void setParameter (std::string name, double value);
         double getParameter (std::string name) const;
         double getMass () const;
         void setMass (double m);
         void move (double dt);
-        void applicateForce (body &other, forceFunction);
+        void applicateForce (Body &other, forceFunction);
 
 };
 

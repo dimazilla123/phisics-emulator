@@ -15,9 +15,9 @@ bool is_num(const std::string& s)
     return true;
 }
 
-std::vector<token> prepare(const Stack& expr, body b1, body b2)
+std::vector<token> prepare(const Stack& expr, Body b1, Body b2)
 {
-    body bodies[] = {b1, b2};
+    Body bodies[] = {b1, b2};
     std::vector<token> ret;
     for (auto s : expr) 
     {
@@ -95,7 +95,7 @@ void print_token_st(const std::vector<token>& v)
     std::cerr << "\n";
 }
 
-token calc(const Stack& expr, const body& b1, const body& b2)
+token calc(const Stack& expr, const Body& b1, const Body& b2)
 {
     vector2d r;
     std::vector<token> st;
@@ -192,7 +192,7 @@ struct force_str
 {
     Stack expr;
     force_str(const Stack& e) : expr(e) {}
-    vector2d operator()(const body& a, const body& b)
+    vector2d operator()(const Body& a, const Body& b)
     {
         auto res = calc(expr, a, b);
         if (res.t == TokenType::VEC)
@@ -208,7 +208,7 @@ struct force_str
 forceFunction createFuncFromCalc(Stack& expr)
 {
     return force_str(expr);
-    return [expr](const body& a, const body& b)
+    return [expr](const Body& a, const Body& b)
     {
         static auto res = calc(expr, a, b);
         if (res.t == TokenType::VEC)

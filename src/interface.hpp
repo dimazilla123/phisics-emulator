@@ -24,7 +24,7 @@ class interface : public QWidget
     private:
         Canvas *canvas;
         int h, w;
-        universe u;
+        Universe u;
         double speed;
         double time;
         QMenuBar* bar;
@@ -36,7 +36,7 @@ class interface : public QWidget
         QLineEdit* vel_x_input;
         QLineEdit* vel_y_input;
     public:
-        interface (universe vers, int w, int h, double speed);
+        interface (Universe vers, int w, int h, double speed);
         ~interface ();
         void move (double x, double y);
         void run (double time);
@@ -47,7 +47,7 @@ class interface : public QWidget
         void move_down();
         void move_left();
         void move_right();
-        void update_universe();
+        void update_Universe();
         void update_canvas();
         void addBody();
 };

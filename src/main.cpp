@@ -7,7 +7,7 @@
 #include "parsing.hpp"
 #include "semantics.hpp"
 
-vector2d constForce (const body& a, const body& b)
+vector2d constForce (const Body& a, const Body& b)
 {
     double k = 20;
     vector2d aPos = a.getPosition ();
@@ -15,7 +15,7 @@ vector2d constForce (const body& a, const body& b)
     return (bPos - aPos).direction () * k;
 }
 
-vector2d goock_force (const body& a, const body& b)
+vector2d goock_force (const Body& a, const Body& b)
 {
     double k = 80;
     vector2d aPos = a.getPosition ();
@@ -23,7 +23,7 @@ vector2d goock_force (const body& a, const body& b)
     return (bPos - aPos) * k;
 }
 
-vector2d gravitation(const body& a, const body& b)
+vector2d gravitation(const Body& a, const Body& b)
 {
     double G = 40000;
     vector2d aPos = a.getPosition();
@@ -37,7 +37,7 @@ int main(int argc, char** argv)
 {
     int wight = 600, hight = 400;
     double time = 0.001, speed = 1;
-    universe u;
+    Universe u;
     //u.addForce(gravitation);
     //u.addForce(goock_force);
 
@@ -65,7 +65,7 @@ int main(int argc, char** argv)
     }
 
     /*
-    body b1(1), b2(1);
+    Body b1(1), b2(1);
     b1.setPosition(vector2d(100, 100));
     b2.setPosition(vector2d(200, 100));
     u.addBody(&b1);

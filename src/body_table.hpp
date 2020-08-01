@@ -27,9 +27,9 @@ private:
         QLineEdit* pos_y_input;
         QLineEdit* vel_x_input;
         QLineEdit* vel_y_input;
-        universe* u;
+        Universe* u;
 public:
-        BodyTable(universe* v);
+        BodyTable(Universe* v);
 public slots:
     void show_body_table();
     void add_row();

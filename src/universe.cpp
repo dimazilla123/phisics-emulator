@@ -5,40 +5,40 @@
 #include <iostream>
 #include <fstream>
 
-void universe::clean()
+void Universe::clean()
 {
     forcename.clear();
     forces.clear();
     bodies.clear();
 }
 
-void universe::addBody (const body& b)
+void Universe::addBody (const Body& b)
 {
     this->bodies.push_back (b);
 }
 
-void universe::removeBodyByIndex (int n)
+void Universe::removeBodyByIndex (int n)
 {
     this->bodies.erase (this->bodies.begin () + n);
 }
 
-void universe::addForce (forceFunction f)
+void Universe::addForce (forceFunction f)
 {
     addForce(f, "unnamed");
 }
 
-void universe::removeForce ()
+void Universe::removeForce ()
 {
     this->forces.pop_back();
 }
 
-void universe::addForce(forceFunction f, const std::string& name)
+void Universe::addForce(forceFunction f, const std::string& name)
 {
     this->forces.push_back(f);
     this->forcename.push_back(name);
 }
 
-void universe::update (double time)
+void Universe::update (double time)
 {
     for (forceFunction f : forces) {
         for (int i = 0; i < bodies.size(); i++) {
@@ -49,18 +49,18 @@ void universe::update (double time)
             }
         }
     }
-    for(body& a : this->bodies)
+    for(Body& a : this->bodies)
         a.move (time);
 }
 
-std::vector<body> universe::getBodies ()
+std::vector<Body> Universe::getBodies ()
 {
     return this->bodies;
 }
 
-void universe::print (int mode)
+void Universe::print (int mode)
 {
-    for(body& b : this->bodies)
+    for(Body& b : this->bodies)
     {
         vector2d pos = b.getPosition ();
         vector2d vel = b.getVelocity ();
@@ -79,7 +79,7 @@ void universe::print (int mode)
     putchar('\n');
 }
 
-void universe::move_all (vector2d offset)
+void Universe::move_all (vector2d offset)
 {
     for (auto &b : bodies)
     {
@@ -88,11 +88,11 @@ void universe::move_all (vector2d offset)
     }
 }
 
-void universe::save(const std::string& filename)
+void Universe::save(const std::string& filename)
 {
     std::ofstream out(filename);
     out << bodies.size() << "\n";
-    for (body& b : bodies) {
+    for (Body& b : bodies) {
         out << b.getMass() << "\n";
         out << b.parameters.size() << "\n";
         for (auto [name, val] : b.parameters)
@@ -105,7 +105,7 @@ void universe::save(const std::string& filename)
         out << s << "\n";
 }
 
-bool universe::load(const std::string& filename)
+bool Universe::load(const std::string& filename)
 {
     std::ifstream in(filename);
     bool res = true;
@@ -115,7 +115,7 @@ bool universe::load(const std::string& filename)
     for (int i = 0; i < n; i++) {
         double m;
         if (in >> m) {
-            bodies.push_back(body(m));
+            bodies.push_back(Body(m));
             int param_cnt = 0;
             if (in >> param_cnt) {
                 for (int j = 0; j < param_cnt; j++) {

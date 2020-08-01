@@ -1,13 +1,13 @@
 #include "body.hpp"
 
-body::body (double m)
+Body::Body (double m)
 {
     this->forceSum = vector2d (0, 0);
     this->position = vector2d (0, 0);
     this->mass = m;
 }
 
-body::body(double m, std::vector<std::string> params)
+Body::Body(double m, std::vector<std::string> params)
 {
     this->forceSum = vector2d ();
     this->velocity = vector2d ();
@@ -18,54 +18,54 @@ body::body(double m, std::vector<std::string> params)
     }
 }
 
-void body::setPosition (vector2d newPos)
+void Body::setPosition (vector2d newPos)
 {
     this->position = newPos;
 }
 
-vector2d body::getPosition () const
+vector2d Body::getPosition () const
 {
     return this->position;
 }
 
-void body::setVelocity (vector2d newVelocity)
+void Body::setVelocity (vector2d newVelocity)
 {
     this->velocity = newVelocity;
 }
 
-vector2d body::getVelocity () const
+vector2d Body::getVelocity () const
 {
     return this->velocity;
 }
 
-double body::getMass () const
+double Body::getMass () const
 {
     return this->mass;
 }
 
-void body::setMass (double m)
+void Body::setMass (double m)
 {
     this->mass = m;
 }
 
-void body::move (double dt)
+void Body::move (double dt)
 {
     velocity += this->forceSum * dt / this->mass;
     this->forceSum = vector2d ();
     this->position += this->velocity * dt;
 }
 
-void body::setParameter (std::string name, double value)
+void Body::setParameter (std::string name, double value)
 {
     this->parameters.insert (std::pair<std::string, double>(name, value));
 }
 
-double body::getParameter (std::string name) const
+double Body::getParameter (std::string name) const
 {
     return (this->parameters.find (name))->second;
 }
 
-void body::applicateForce (body &other, forceFunction f)
+void Body::applicateForce (Body &other, forceFunction f)
 {
     fprintf(stderr, "force val: x = %f, y = %f\n", f(*this, other).getX(), f(*this, other).getY());
     this->forceSum += f(*this, other);

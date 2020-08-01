@@ -1,6 +1,6 @@
 #include "formula_table.hpp"
 
-FormulaTable::FormulaTable(universe* u_)
+FormulaTable::FormulaTable(Universe* u_)
 {
     u = u_;
     QPushButton* add_button = new QPushButton("Add");

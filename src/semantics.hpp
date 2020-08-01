@@ -22,8 +22,8 @@ struct token
     std::string func;
 };
 
-token calc(const Stack& expr, const body& a, const body& b);
-std::vector<token> prepare(Stack& expr, body b1, body b2);
+token calc(const Stack& expr, const Body& a, const Body& b);
+std::vector<token> prepare(Stack& expr, Body b1, Body b2);
 
 forceFunction createFuncFromCalc(Stack& expr);
 

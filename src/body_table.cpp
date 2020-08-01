@@ -1,7 +1,7 @@
 #include "body_table.hpp"
 #include <QVBoxLayout>
 
-BodyTable::BodyTable(universe* v)
+BodyTable::BodyTable(Universe* v)
 {
     u = v;
     QPushButton* add_row_button = new QPushButton("Add body");
