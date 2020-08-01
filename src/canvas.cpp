@@ -1,11 +1,11 @@
 #include "canvas.hpp"
 #include <cmath>
 
-void Canvas::paintEvent (QPaintEvent *event)
+void Canvas::paintEvent(QPaintEvent *event)
 {
-    QPainter paint (this);
+    QPainter paint(this);
     paint.setBrush(QBrush(Qt::blue, Qt::SolidPattern));
-    paint.setPen (QPen(Qt::black, 1, Qt::SolidLine, Qt::FlatCap));
+    paint.setPen(QPen(Qt::black, 1, Qt::SolidLine, Qt::FlatCap));
     for (auto point : body_positions)
     {
         double x = point.x();
@@ -14,7 +14,7 @@ void Canvas::paintEvent (QPaintEvent *event)
         y -= y1;
         x = w * x / (x2 - x1);
         y = h * y / (y2 - y1);
-        paint.drawEllipse ({x, y}, 10, 10);
+        paint.drawEllipse({x, y}, 10, 10);
     }
 }
 
@@ -82,36 +82,36 @@ void Canvas::wheelEvent(QWheelEvent *event)
     y2 = cy + dy;
 }
 
-Canvas::Canvas (QWidget *parent) : QWidget (parent)
+Canvas::Canvas(QWidget *parent) : QWidget(parent)
 {
-    this->setStyleSheet ("background-color:white;");
+    this->setStyleSheet("background-color:white;");
     x1 = y1 = 0;
     x2 = this->frameSize().width();
     y2 = this->frameSize().height();
 }
-Canvas::Canvas () : QWidget ()
+Canvas::Canvas() : QWidget()
 {
-    this->setStyleSheet ("background-color:white;");
+    this->setStyleSheet("background-color:white;");
 }
 
-Canvas::~Canvas ()
+Canvas::~Canvas()
 {
 
 }
 
-void Canvas::redraw ()
+void Canvas::redraw()
 {
-    update ();
+    update();
 }
 
-void Canvas::draw_points (const std::vector<vector2d> &points)
+void Canvas::draw_points(const std::vector<vector2d> &points)
 {
-    this->body_positions.clear ();
+    this->body_positions.clear();
 
     for (auto point : points)
     {
-        double x = point.getX (), y = point.getY ();
-        this->body_positions.push_back (QPointF (x, y));
+        double x = point.getX(), y = point.getY();
+        this->body_positions.push_back(QPointF(x, y));
     }
-    update ();
+    update();
 }

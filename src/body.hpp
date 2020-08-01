@@ -19,18 +19,18 @@ class Body
         vector2d forceSum;
     public:
         std::map<std::string, double> parameters;
-        Body (double massN);
-        void setPosition (vector2d newPos);
-        vector2d getPosition () const;
-        void setVelocity (vector2d newVelocity);
-        vector2d getVelocity () const;
-        Body (double massN, std::vector<std::string> parametersNames);
-        void setParameter (std::string name, double value);
-        double getParameter (std::string name) const;
-        double getMass () const;
-        void setMass (double m);
-        void move (double dt);
-        void applicateForce (Body &other, forceFunction);
+        Body(double massN);
+        void setPosition(vector2d newPos);
+        vector2d getPosition() const;
+        void setVelocity(vector2d newVelocity);
+        vector2d getVelocity() const;
+        Body(double massN, std::vector<std::string> parametersNames);
+        void setParameter(std::string name, double value);
+        double getParameter(std::string name) const;
+        double getMass() const;
+        void setMass(double m);
+        void move(double dt);
+        void applicateForce(Body &other, forceFunction);
 
 };
 

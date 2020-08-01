@@ -7,19 +7,19 @@
 #include "parsing.hpp"
 #include "semantics.hpp"
 
-vector2d constForce (const Body& a, const Body& b)
+vector2d constForce(const Body& a, const Body& b)
 {
     double k = 20;
-    vector2d aPos = a.getPosition ();
-    vector2d bPos = b.getPosition ();
-    return (bPos - aPos).direction () * k;
+    vector2d aPos = a.getPosition();
+    vector2d bPos = b.getPosition();
+    return (bPos - aPos).direction() * k;
 }
 
-vector2d goock_force (const Body& a, const Body& b)
+vector2d goock_force(const Body& a, const Body& b)
 {
     double k = 80;
-    vector2d aPos = a.getPosition ();
-    vector2d bPos = b.getPosition ();
+    vector2d aPos = a.getPosition();
+    vector2d bPos = b.getPosition();
     return (bPos - aPos) * k;
 }
 
@@ -29,8 +29,8 @@ vector2d gravitation(const Body& a, const Body& b)
     vector2d aPos = a.getPosition();
     vector2d bPos = b.getPosition();
     double m1 = a.getMass(), m2 = b.getMass();
-    double r = (aPos - bPos).distance ();
-    return (bPos - aPos).direction () * G * m1 * m2 / (r * r);
+    double r = (aPos - bPos).distance();
+    return (bPos - aPos).direction() * G * m1 * m2 / (r * r);
 }
 
 int main(int argc, char** argv)
@@ -70,7 +70,7 @@ int main(int argc, char** argv)
     b2.setPosition(vector2d(200, 100));
     u.addBody(&b1);
     u.addBody(&b2);
-    u.addForce (&goock_force);
+    u.addForce(&goock_force);
     */
     
 
@@ -80,7 +80,7 @@ int main(int argc, char** argv)
     interf.show();
     interf.run(time);
 
-    app.exec ();
+    app.exec();
 
     return 0;
 }

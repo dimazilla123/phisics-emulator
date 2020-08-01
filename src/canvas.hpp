@@ -35,9 +35,9 @@ private:
 public:
     QPainter* painter;
     void draw_points(const std::vector<vector2d> &points);
-    Canvas (QWidget *parent);
-    Canvas ();
+    Canvas(QWidget *parent);
+    Canvas();
     ~Canvas();
 public slots:
-    void redraw ();
+    void redraw();
 };

@@ -18,12 +18,12 @@ BodyTable::BodyTable(Universe* v)
     body_table->closePersistentEditor(body_table->item(0, 0));
     body_table->closePersistentEditor(body_table->item(0, 1));
 
-    body_add_widget = new QGroupBox ("Add bodies");
-    mass_input = new QLineEdit ("Mass");
-    pos_x_input = new QLineEdit ("X position");
-    pos_y_input = new QLineEdit ("Y position");
-    vel_x_input = new QLineEdit ("X velocity");
-    vel_y_input = new QLineEdit ("Y velocity");
+    body_add_widget = new QGroupBox("Add bodies");
+    mass_input = new QLineEdit("Mass");
+    pos_x_input = new QLineEdit("X position");
+    pos_y_input = new QLineEdit("Y position");
+    vel_x_input = new QLineEdit("X velocity");
+    vel_y_input = new QLineEdit("Y velocity");
     QVBoxLayout* body_layout = new QVBoxLayout;
     body_layout->addWidget(add_row_button);
     body_layout->addWidget(mass_input);

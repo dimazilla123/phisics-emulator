@@ -12,22 +12,22 @@ void Universe::clean()
     bodies.clear();
 }
 
-void Universe::addBody (const Body& b)
+void Universe::addBody(const Body& b)
 {
-    this->bodies.push_back (b);
+    this->bodies.push_back(b);
 }
 
-void Universe::removeBodyByIndex (int n)
+void Universe::removeBodyByIndex(int n)
 {
-    this->bodies.erase (this->bodies.begin () + n);
+    this->bodies.erase(this->bodies.begin() + n);
 }
 
-void Universe::addForce (forceFunction f)
+void Universe::addForce(forceFunction f)
 {
     addForce(f, "unnamed");
 }
 
-void Universe::removeForce ()
+void Universe::removeForce()
 {
     this->forces.pop_back();
 }
@@ -38,7 +38,7 @@ void Universe::addForce(forceFunction f, const std::string& name)
     this->forcename.push_back(name);
 }
 
-void Universe::update (double time)
+void Universe::update(double time)
 {
     for (forceFunction f : forces) {
         for (int i = 0; i < bodies.size(); i++) {
@@ -49,42 +49,42 @@ void Universe::update (double time)
             }
         }
     }
-    for(Body& a : this->bodies)
-        a.move (time);
+    for (Body& a : this->bodies)
+        a.move(time);
 }
 
-std::vector<Body> Universe::getBodies ()
+std::vector<Body> Universe::getBodies()
 {
     return this->bodies;
 }
 
-void Universe::print (int mode)
+void Universe::print(int mode)
 {
-    for(Body& b : this->bodies)
+    for (Body& b : this->bodies)
     {
-        vector2d pos = b.getPosition ();
-        vector2d vel = b.getVelocity ();
-        if(mode == READABLE_UNIVERSE_PRINTING_MODE)
+        vector2d pos = b.getPosition();
+        vector2d vel = b.getVelocity();
+        if (mode == READABLE_UNIVERSE_PRINTING_MODE)
         {
-            printf ("position %lf %lf\n", pos.getX (), pos.getY ());
-            printf ("velocity %lf %lf\n", vel.getX (), vel.getY ());
-            getchar ();
+            printf("position %lf %lf\n", pos.getX(), pos.getY());
+            printf("velocity %lf %lf\n", vel.getX(), vel.getY());
+            getchar();
         }
-        if(mode == EXPORT_UNIVERSE_PRINTING_MODE)
+        if (mode == EXPORT_UNIVERSE_PRINTING_MODE)
         {
-            printf("%lf %lf ", pos.getX (), pos.getY ());
-            printf("%lf %lf ", vel.getX (), vel.getY ());
+            printf("%lf %lf ", pos.getX(), pos.getY());
+            printf("%lf %lf ", vel.getX(), vel.getY());
         }
     }
     putchar('\n');
 }
 
-void Universe::move_all (vector2d offset)
+void Universe::move_all(vector2d offset)
 {
     for (auto &b : bodies)
     {
-        vector2d cur_pos = b.getPosition ();
-        b.setPosition (cur_pos + offset);
+        vector2d cur_pos = b.getPosition();
+        b.setPosition(cur_pos + offset);
     }
 }
 

@@ -16,15 +16,15 @@ class Universe
         std::vector<Body> bodies;
         std::vector<std::string> forcename;
         std::vector<forceFunction> forces;
-        void addBody (const Body& b);
-        void removeBodyByIndex (int n);
-        void addForce (forceFunction force);
-        void removeForce ();
-        void addForce (forceFunction force, const std::string& name);
-        void update (double time);
-        std::vector<Body> getBodies ();
-        void print (int mode);
-        void move_all (vector2d offset);
+        void addBody(const Body& b);
+        void removeBodyByIndex(int n);
+        void addForce(forceFunction force);
+        void removeForce();
+        void addForce(forceFunction force, const std::string& name);
+        void update(double time);
+        std::vector<Body> getBodies();
+        void print(int mode);
+        void move_all(vector2d offset);
         void save(const std::string& filename);
         bool load(const std::string& filename); // false if failed
 };

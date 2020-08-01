@@ -36,10 +36,10 @@ class interface : public QWidget
         QLineEdit* vel_x_input;
         QLineEdit* vel_y_input;
     public:
-        interface (Universe vers, int w, int h, double speed);
-        ~interface ();
-        void move (double x, double y);
-        void run (double time);
+        interface(Universe vers, int w, int h, double speed);
+        ~interface();
+        void move(double x, double y);
+        void run(double time);
     public slots:
         void save();
         void load();
