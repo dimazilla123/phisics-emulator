@@ -7,6 +7,8 @@
 #include "parsing.hpp"
 #include "semantics.hpp"
 
+// 3 functions used for debugging
+
 vector2d constForce(const Body& a, const Body& b)
 {
     double k = 20;
@@ -35,7 +37,7 @@ vector2d gravitation(const Body& a, const Body& b)
 
 int main(int argc, char** argv)
 {
-    int wight = 600, hight = 400;
+    const int wight = 600, hight = 400;
     double time = 0.001, speed = 1;
     Universe u;
     //u.addForce(gravitation);

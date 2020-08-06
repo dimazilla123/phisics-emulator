@@ -4,10 +4,6 @@
 #include <cassert>
 #include <algorithm>
 
-/*! \enum LexemType
- *
- *  Detailed description
- */
 enum LexemType
 { 
     NUMBER,
